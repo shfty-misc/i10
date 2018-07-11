@@ -45,3 +45,4 @@ Fixes
 -Fix certain windows causing windows key to fall through and activate the start menu
     -Reproducible with RemotePC client window
     -Seems to be down to the way RemotePC hooks the windows key
+-Fix README.md formatting
