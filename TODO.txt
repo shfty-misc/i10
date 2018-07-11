@@ -26,6 +26,7 @@ Fixes
 -Jitter / flicker on all but one workspace
     -Happens intermittently when switching away from a workspace
         -All but the source workspace start flickering
+-Prevent certain floating popups from being given a title bar
 -Revisit undocking / implicit split behaviour (ex. 2V containing a 2H and 1W, try to move child of 2H upward, doesn't turn 2V into a 3V)
 -Fix window drag not taking split creation into account
     -Refactor split creation to happen on press rather than window spawn
