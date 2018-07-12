@@ -1,5 +1,7 @@
 Features
 ========
+-Theme options for GUI colours, fonts
+
 -GUI-driven include / exclude configuration
 
 -Wrap focus around monitors when navigating
@@ -24,6 +26,8 @@ Features
 
 Fixes
 =====
+-Check against current frame title/color to avoid re-setting and making the UI flicker
+
 -Frame / work area support for tab/stack layouts
 
 -Fix broken behaviour when moving current fullscreen window to a different workspace

@@ -49,7 +49,7 @@ class WorkspaceContainer extends Container
     {
         base.Update()
 
-        if(this.parent.GetActiveChild() != this)
+        if(this.parent.GetActiveChild() != this || this.maximizedWindow != "")
         {
             SetWindowHidden(this.frame.hwnd)
             SetWindowHidden(this.GetRootSplitContainer().frame.hwnd)
