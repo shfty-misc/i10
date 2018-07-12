@@ -6,6 +6,7 @@ ExcludeWindow("ahk_class TaskListThumbnailWnd")                         ; Task L
 ExcludeWindow("ahk_class MultitaskingViewFrame")                        ; Alt + Tab Overlay
 ExcludeWindow("NVIDIA GeForce Overlay")                                 ; GeForce overlay
 ExcludeWindow("ahk_class AutoHotkeyGUI")                                ; AHK GUI windows
+ExcludeWindow("ahk_class tooltips_class32")                             ; AHK GUI Tooltips
 ExcludeWindow("MainWindow")                                             ; RPC Print Server
 ExcludeWindow("ahk_class Windows.UI.Core.CoreWindow")                   ; UWA inner containers
 ExcludeWindow("ahk_class Xaml_WindowedPopupClass")                      ; UWA right-click menus
@@ -27,7 +28,7 @@ IncludeWindow("Steam ahk_class vguiPopupWindow")                        ; Steam 
 IncludeWindow("Friends ahk_class vguiPopupWindow")                      ; Steam Friends
 IncludeWindow(".* - Chat ahk_class vguiPopupWindow")                    ; Steam Chat
 IncludeWindow(".* - qutebrowser ahk_class Qt5QWindowIcon")              ; Qutebrowser
-IncludeWindow("ahk_class UnrealWindow")                                 ; Unreal Engine 4
+IncludeWindow(".+ ahk_class UnrealWindow")                                 ; Unreal Engine 4
 IncludeWindow(".* P4V ahk_class Qt5QWindowIcon")                        ; Perforce
 IncludeWindow("Blizzard Battle.net ahk_class Qt5QWindowOwnDCIcon")      ; Battle.net
 IncludeWindow(".* - RemotePC ahk_class RPCMDI_Window")                  ; RemotePC Client Window
