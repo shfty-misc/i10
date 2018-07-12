@@ -9,6 +9,16 @@
     LV_Add(, winTitle)
 }
 
+ExcludePopup(winTitle)
+{
+    GroupAdd, ExcludedPopups, % winTitle
+}
+
+ExcludeChild(winTitle)
+{
+    GroupAdd, ExcludedChildren, % winTitle
+}
+
 FloatWindow(winTitle)
 {
     GroupAdd, FloatingWindows, % winTitle
@@ -17,17 +27,6 @@ FloatWindow(winTitle)
     global guiFloats
     Gui, % mainGui . ":Default"
     Gui, % mainGui . ":ListView", guiFloats
-    LV_Add(, winTitle)
-}
-
-IncludeWindow(winTitle)
-{
-    GroupAdd, IncludedWindows, % winTitle
-
-    global mainGui
-    global guiIncludes
-    Gui, % mainGui . ":Default"
-    Gui, % mainGui . ":ListView", guiIncludes
     LV_Add(, winTitle)
 }
 
@@ -61,22 +60,32 @@ QueryIncludesWindow(winTitle, hwnd)
 ; Window Filtering Functions
 ShouldExcludeWindow(hwnd)
 {
-    if(ShouldFloatWindow(hwnd) || ShouldIncludeWindow(hwnd))
+    if(GetWindowIsPopup(hwnd))
     {
-        return false
+        return ShouldExcludePopup(hwnd)
     }
-    
+
+    if(GetWindowIsChild(hwnd))
+    {
+        return ShouldExcludeChild(hwnd)
+    }
+
     return QueryIncludesWindow("ahk_group ExcludedWindows", hwnd)
+}
+
+ShouldExcludePopup(hwnd)
+{
+    return QueryIncludesWindow("ahk_group ExcludedPopups", hwnd)
+}
+
+ShouldExcludeChild(hwnd)
+{
+    return QueryIncludesWindow("ahk_group ExcludedChildren", hwnd)
 }
 
 ShouldFloatWindow(hwnd)
 {
     return QueryIncludesWindow("ahk_group FloatingWindows", hwnd)
-}
-
-ShouldIncludeWindow(hwnd)
-{
-    return QueryIncludesWindow("ahk_group IncludedWindows", hwnd)
 }
 
 GetSleepForWindow(hwnd)

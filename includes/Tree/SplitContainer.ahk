@@ -22,7 +22,7 @@ class SplitContainer extends Container
         {
             if(this.GetChildCount() == 0)
             {
-                this.parent.RemoveChild(this)
+                this.Destroy()
             }
         }
 

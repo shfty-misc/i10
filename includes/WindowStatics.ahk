@@ -90,7 +90,7 @@ GetWindowExtendedFrameBounds(hwnd)
 
 GetWindowIsFullscreen(hwnd)
 {
-    WinGet style, Style, ahk_id %hwnd%
+    WinGet, style, Style, ahk_id %hwnd%
     if((style & 0x20800000) ? 0 : 1)
     {
         winPos := GetWindowPosition(hwnd)
@@ -114,6 +114,12 @@ GetWindowIsFullscreen(hwnd)
     }
 
     return false
+}
+
+GetWindowIsHidden(hwnd)
+{
+    WinGet, style, Style, % "ahk_id " . hwnd
+    return style & 0x10000000 ? 0 : 1
 }
 
 SetWindowPosition(hwnd, x, y, w, h)
@@ -159,6 +165,16 @@ SetWindowMinimized(hwnd)
     {
         WinMinimize, ahk_id %hwnd%
     }
+}
+
+SetWindowHidden(hwnd)
+{
+    WinHide, % "ahk_id " . hwnd
+}
+
+SetWindowShown(hwnd)
+{
+    WinShow, % "ahk_id " . hwnd
 }
 
 SetWindowAlwaysOnTop(hwnd)

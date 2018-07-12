@@ -26,6 +26,11 @@ class MonitorContainer extends Container
         }
     }
 
+    CreateFrame()
+    {
+        this.frame := new MonitorFrame()
+    }
+
     GetDisplayArea()
     {
         monitor := this.monitor

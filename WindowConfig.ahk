@@ -1,37 +1,40 @@
-; Window Excludes
-ExcludeWindow("^$")                                                     ; Windows with no title
-ExcludeWindow("Program Manager ahk_class Progman")                      ; Program manager
-ExcludeWindow("ahk_class TaskListOverlayWnd")                           ; Task List Overlay
-ExcludeWindow("ahk_class TaskListThumbnailWnd")                         ; Task List Thumbnail
-ExcludeWindow("ahk_class MultitaskingViewFrame")                        ; Alt + Tab Overlay
-ExcludeWindow("NVIDIA GeForce Overlay")                                 ; GeForce overlay
-ExcludeWindow("ahk_class AutoHotkeyGUI")                                ; AHK GUI windows
-ExcludeWindow("ahk_class tooltips_class32")                             ; AHK GUI Tooltips
-ExcludeWindow("MainWindow")                                             ; RPC Print Server
-ExcludeWindow("ahk_class Windows.UI.Core.CoreWindow")                   ; UWA inner containers
-ExcludeWindow("ahk_class Xaml_WindowedPopupClass")                      ; UWA right-click menus
-ExcludeWindow("ahk_class Qt5QWindowPopupDropShadowSaveBits")            ; P4V dropdown menus
-ExcludeWindow("Wox")                                                    ; Wox
+; Core
+ExcludeWindow("^$")                                                    ; Windows with no title
+ExcludePopup("^$")                                                     ; Popups with no title
+ExcludeChild("^$")                                                     ; Children with no title
 
-; Window Floats
+ExcludeWindow("ahk_class Windows.UI.Core.CoreWindow")                   ; UWA inner containers
+
+ExcludePopup("ahk_class Xaml_WindowedPopupClass")                      ; UWA right-click menus
+ExcludePopup("ahk_class Qt5QWindowToolTipSaveBits")                    ; Qt tooltips
+ExcludePopup("Program Manager ahk_class Progman")                      ; Program manager
+ExcludePopup("ahk_class TaskListOverlayWnd")                           ; Task List Overlay
+ExcludePopup("ahk_class TaskListThumbnailWnd")                         ; Task List Thumbnail
+ExcludePopup("ahk_class MultitaskingViewFrame")                        ; Alt + Tab Overlay
+ExcludePopup("ahk_class SysDragImage")                                 ; Drag Overlays
+ExcludePopup("ahk_class AutoHotkeyGUI")                                ; AHK GUI windows
+ExcludePopup("ahk_class tooltips_class32")                             ; AHK GUI Tooltips
+ExcludePopup("ahk_class Qt5QWindowPopupDropShadowSaveBits")            ; Qt dropdown menus
+ExcludePopup("ahk_class Qt5QWindowToolTipDropShadowSaveBits")          ; Qt tooltips
+ExcludePopup("ahk_class SysShadow")                                    ; Shadows
+ExcludePopup("ahk_class MozillaWindowClass")                           ; Firefox tooltips
+
 FloatWindow("ahk_class OperationStatusWindow")                          ; File explorer progress dialogs
+FloatWindow("ahk_class #32770")                                         ; Popup dialogs
+
+; General
+ExcludeWindow("Wox")                                                    ; Wox
+ExcludeWindow("NVIDIA GeForce Overlay")                                 ; GeForce overlay
+
 FloatWindow("SteamVR Status ahk_class Qt5QWindowIcon")                  ; SteamVR status window
 FloatWindow("vrmonitor ahk_class Qt5QWindowToolSaveBits")               ; ???
-FloatWindow(".* - Steam ahk_class vguiPopupWindow")                     ; Steam popups
-FloatWindow("ahk_class NIOH")                                           ; Nioh
 FloatWindow("RemotePC ahk_class HwndWrapper.*")                         ; RemotePC machine list
-FloatWindow("NCC Touchscreen")                                          ; NCC Touch App
 
-; Window Includes
-IncludeWindow(".+ ahk_class ApplicationFrameWindow")                    ; UWA outer containers
-IncludeWindow("Steam ahk_class vguiPopupWindow")                        ; Steam Main Window
-IncludeWindow("Friends ahk_class vguiPopupWindow")                      ; Steam Friends
-IncludeWindow(".* - Chat ahk_class vguiPopupWindow")                    ; Steam Chat
-IncludeWindow(".* - qutebrowser ahk_class Qt5QWindowIcon")              ; Qutebrowser
-IncludeWindow(".+ ahk_class UnrealWindow")                                 ; Unreal Engine 4
-IncludeWindow(".* P4V ahk_class Qt5QWindowIcon")                        ; Perforce
-IncludeWindow("Blizzard Battle.net ahk_class Qt5QWindowOwnDCIcon")      ; Battle.net
-IncludeWindow(".* - RemotePC ahk_class RPCMDI_Window")                  ; RemotePC Client Window
-
-; Window Delays
 SetWindowSleep("Skype ahk_class ApplicationFrameWindow", 500)           ; Skype UWA
+
+; STARSHIP-V2
+FloatWindow("ahk_class NIOH")                                           ; Nioh
+
+; JOSH-DEV
+ExcludeWindow("MainWindow")                                             ; RPC Print Server
+FloatWindow("NCC Touchscreen")                                          ; NCC Touch App

@@ -92,6 +92,8 @@ class RootContainer extends Container
                 
                 if(IndexOf(hwnd, this.unmanagedWindows) == -1)
                 {
+                    LogMessage("Excluding window " . hwnd . ", Title: " . GetWindowTitle(hwnd) . ", Class: " . GetWindowClass(hwnd))
+
                     this.unmanagedWindows.Push(hwnd)
 
                     Gui, % mainGui . ":Default"
@@ -113,10 +115,7 @@ class RootContainer extends Container
                     LogMessage("Creating window container for " . hwnd)
                     LogMessage("Title: " . windowTitle . ", Class: " . windowClass)
 
-                    isFloating := ShouldFloatWindow(hwnd)
-                    isFloating |= (GetWindowIsPopup(hwnd) || GetWindowIsChild(hwnd)) && !ShouldIncludeWindow(hwnd)
-                    
-                    if(isFloating)
+                    if(ShouldFloatWindow(hwnd))
                     {
                         LogMessage("Setting up window " . hwnd . " as floating")
                         activeWorkspace := activeMonitor.GetActiveChild()

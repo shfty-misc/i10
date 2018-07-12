@@ -3,8 +3,6 @@ class WindowContainer extends Container
 {
     hwnd := ""
 
-    titleBar := 0
-
     guiTreeTitle := 0
     guiTreeClass := 0
     guiTreeWorkArea := 0
@@ -15,15 +13,6 @@ class WindowContainer extends Container
         base.__New(parent)
         
         this.hwnd := hwnd
-
-        if(!this.IsFloating())
-        {
-            this.titleBar := new WindowTitleBar()
-
-            ; Move window above title bar
-            WinSet, AlwaysOnTop, On, % "ahk_id " . this.hwnd
-            WinSet, AlwaysOnTop, Off, % "ahk_id " . this.hwnd
-        }
     }
 
     Update()
@@ -32,11 +21,13 @@ class WindowContainer extends Container
         global Layout_Split
 
         ; Destroy self if the associated window no longer exists
+        DetectHiddenWindows, On
         if(!WinExist("ahk_id " . this.hwnd))
         {
             this.Destroy()
             return
         }
+        DetectHiddenWindows, Off
 
         ; Destroy self and exclude associated window if it goes fullscreen
         if(this.GetParentMonitor().fullscreenWindow != "")
@@ -50,26 +41,159 @@ class WindowContainer extends Container
         }
         else
         {
-            if(GetWindowIsMaximized(this.hwnd))
+            maximizedWindow := this.GetParentWorkspace().maximizedWindow
+
+            if(this.IsBeingDragged())
             {
-                this.Update_Maximized()
-            }
-            else if(GetWindowIsMinimized(this.hwnd))
-            {
-                this.Update_Minimized()
+                if(maximizedWindow == "")
+                {
+                    this.UpdateDragged()
+                }
             }
             else
             {
-                this.Update_Restored()
+                this.UpdatePosition()
             }
+
         }
 
-        ; Activate if the OS has forced focus elsewhere
+        this.UpdateVisibility()
+        this.UpdateFocus()
+
+        ; Call base update function
+        base.Update()
+    }
+
+    Destroy()
+    {
+        ; Unhide window
+        this.SetShown()
+
+        ; If this is the maximized window on its parent workspace, null out the reference
+        parentWorkspace := this.GetParentWorkspace()
+        if(parentWorkspace.maximizedWindow == this)
+        {
+            parentWorkspace.maximizedWindow := ""
+        }
+
+        ; Remove self from parent
+        oldParent := this.parent
+        base.Destroy()
+        oldParent.GetActiveChild().SetActiveContainer()
+    }
+
+    CreateFrame()
+    {
+        if(!this.IsFloating())
+        {
+            this.frame := new WindowFrame()
+
+            ; Move frame below window
+            WinSet, Bottom,, % "ahk_id " . this.frame.hwnd
+        }
+    }
+
+    UpdateFrame()
+    {
+        base.UpdateFrame()
+
+        windowTitle := GetWindowTitle(this.hwnd)
+        if(windowTitle != this.frame.titleText)
+        {
+            this.frame.SetText(windowTitle)
+        }
+    }
+
+    Close()
+    {
+        WinClose, % "ahk_id " . this.hwnd
+    }
+
+    SetMinimized()
+    {
+        SetWindowMinimized(this.hwnd)
+    }
+
+    SetMaximized()
+    {
+        SetWindowMaximized(this.hwnd)
+    }
+
+    SetRestored()
+    {
+        SetWindowRestored(this.hwnd)
+    }
+
+    SetHidden()
+    {
+        SetWindowHidden(this.frame.hwnd)
+        SetWindowHidden(this.hwnd)
+    }
+
+    SetShown()
+    {
+        SetWindowShown(this.frame.hwnd)
+        SetWindowShown(this.hwnd)
+    }
+
+    UpdateVisibility()
+    {
+        ; Show/Hide based on active workspace
+        isHidden := GetWindowIsHidden(this.hwnd)
+
+        global Layout_Tabbed
+        isTab := this.parent.layout == Layout_Tabbed
+        isActiveTab := isTab && this.parent.GetActiveChild() == this
+
+        parentWorkspace := this.GetParentWorkspace()
+        parentMonitor := this.GetParentMonitor()
+
+        if(parentWorkspace != parentMonitor.GetActiveChild())
+        {
+            if(!isHidden)
+            {
+                this.SetHidden()
+            }
+        }
+        else
+        {
+            if(isHidden)
+            {
+                if(parentWorkspace.maximizedWindow == "")
+                {
+                    if(!isTab || (isTab && isActiveTab))
+                    {
+                        LogMessage("Showing active workspace window " . this.hwnd)
+                        this.SetShown()
+                    }
+                }
+                else if(parentWorkspace.maximizedWindow == this)
+                {
+                    this.SetShown()
+                }
+            }
+            else
+            {
+                if(parentWorkspace.maximizedWindow != "" && parentWorkspace.maximizedWindow != this)
+                {
+                    this.SetHidden()
+                }
+
+                if(isTab && !isActiveTab)
+                {
+                    this.SetHidden()
+                }
+            }
+        }
+    }
+
+    UpdateFocus()
+    {
         if(GetActiveContainer() == this && !GetKeyState("LButton"))
         {
             activeHwnd := WinExist("A")
 
-            if(activeHwnd == this.titleBar.hwnd)
+            if(activeHwnd == this.frame.hwnd)
             {
                 SetWindowActive(this.hwnd)
             }
@@ -77,6 +201,7 @@ class WindowContainer extends Container
             {
                 progmanHwnd := WinExist("ahk_class Progman")
                 desktopHwnd := WinExist("ahk_class WorkerW")
+                global treeRoot
                 if(activeHwnd == "" || activeHwnd == progmanHwnd || activeHwnd == desktopHwnd || GetWindowWithHwnd(treeRoot, activeHwnd))
                 {
                     if(activeHwnd != this.hwnd)
@@ -89,78 +214,6 @@ class WindowContainer extends Container
                         }
                     }
                 }
-            }
-        }
-
-        ; Update title bar
-        workArea := this.GetWorkArea(true)
-        this.titleBar.SetPosition(workArea.left, workArea.top, workArea.right - workArea.left, workArea.bottom - workArea.top)
-
-        windowTitle := GetWindowTitle(this.hwnd)
-        if(windowTitle != this.titleBar.titleText)
-        {
-            this.titleBar.SetTitleText(windowTitle)
-        }
-
-        ; Call base update function
-        base.Update()
-    }
-
-    Destroy()
-    {
-        parentWorkspace := this.GetParentWorkspace()
-        if(parentWorkspace.maximizedWindow == this)
-        {
-            parentWorkspace.maximizedWindow := ""
-        }
-
-        this.titleBar.Destroy()
-        this.titleBar := 0
-
-        oldParent := this.parent
-        this.parent.RemoveChild(this)
-        oldParent.GetActiveChild().SetActiveContainer()
-    }
-
-    Close()
-    {
-        WinClose, % "ahk_id " . this.hwnd
-    }
-
-    SetMinimized()
-    {
-        SetWindowMinimized(this.titleBar.hwnd)
-        SetWindowMinimized(this.hwnd)
-    }
-
-    SetMaximized()
-    {
-        SetWindowMinimized(this.titleBar.hwnd)
-        SetWindowMaximized(this.hwnd)
-    }
-
-    SetRestored()
-    {
-        SetWindowRestored(this.titleBar.hwnd)
-        SetWindowRestored(this.hwnd)
-    }
-
-    Update_Maximized()
-    {
-        ; Minimize if not on active workspace
-        if(this.GetParentWorkspace() != this.GetParentMonitor().GetActiveChild())
-        {
-            LogMessage("Minimizing inactive workspace window " . this.hwnd)
-            this.SetMinimized()
-        }
-        else
-        {
-            ; Restore if not the maximized window
-            maximizedWindow := this.GetParentWorkspace().maximizedWindow
-            if(maximizedWindow != this)
-            {
-                LogMessage("Restoring active workspace window " . this.hwnd)
-                this.SetRestored()
             }
         }
     }
@@ -184,170 +237,88 @@ class WindowContainer extends Container
                 }
             }
         }
-
-        ; Minimize if not on active workspace
-        if(this.GetParentWorkspace() != this.GetParentMonitor().GetActiveChild())
-        {
-            LogMessage("Minimizing inactive workspace window " . this.hwnd)
-            this.SetMinimized()
-        }
-        else
-        {
-            if(GetWindowIsMinimized(this.hwnd))
-            {
-                LogMessage("Restoring active workspace window " . this.hwnd)
-                this.SetRestored()
-            }
-        }
     }
 
-    Update_Minimized()
+    UpdateDragged()
     {
-        global Layout_Tabbed
+        this.SetActiveContainer(false)
 
-        ; Restore if on active workspace
-        if(this.GetParentWorkspace() == this.GetParentMonitor().GetActiveChild())
+        sourceParent := this.parent
+
+        activeMonitor := GetMonitorUnderMouse()
+        if(activeMonitor != "")
         {
-            ; Restore if this is the maximized window
-            maximizedWindow := this.GetParentWorkspace().maximizedWindow
-
-            if(maximizedWindow == this)
+            activeContainer := GetContainerUnderMouse(activeMonitor)
+            if(activeContainer != "" && activeContainer != this)
             {
-                LogMessage("Maximizing active workspace maximized window " . this.hwnd)
-                this.SetMaximized()
-            }
-            else if(maximizedWindow != "")
-            {
-
-            }
-            else
-            {
-                parentSplit := this.GetParentSplit()
-                if(parentSplit.layout != Layout_Tabbed)
+                if(activeContainer.__Class == "SplitContainer")
                 {
-                    LogMessage("Restoring active workspace non-tabbed window " . this.hwnd)
-                    this.SetRestored()
+                    sourceParent.RemoveChild(this)
+                    activeContainer.AddChild(this)
+                    this.SetActiveContainer(false)
                 }
-                else if(parentSplit.GetActiveChild() == this)
+                else if(activeContainer.__Class == "WindowContainer")
                 {
-                    LogMessage("Restoring active workspace active window " . this.hwnd)
-                    this.SetRestored()
-                }
-            }
-        }
-    }
-
-    Update_Restored()
-    {
-        global Layout_Tabbed
-
-        if(this.IsBeingDragged())
-        {
-            this.SetActiveContainer(false)
-
-            sourceParent := this.parent
-
-            activeMonitor := GetMonitorUnderMouse()
-            if(activeMonitor != "")
-            {
-                activeContainer := GetContainerUnderMouse(activeMonitor)
-                if(activeContainer != "" && activeContainer != this)
-                {
-                    if(activeContainer.__Class == "SplitContainer")
+                    if(!activeContainer.IsFloating())
                     {
-                        sourceParent.RemoveChild(this)
-                        activeContainer.AddChild(this)
-                        this.SetActiveContainer(false)
-                    }
-                    else if(activeContainer.__Class == "WindowContainer")
-                    {
-                        if(!activeContainer.IsFloating())
+                        activeSplit := activeContainer.GetParentSplit()
+                        if(sourceParent == activeSplit)
                         {
-                            activeSplit := activeContainer.GetParentSplit()
-                            if(sourceParent == activeSplit)
-                            {
-                                if(activeContainer.GetIndex() > this.GetIndex())
-                                {
-                                    activeSplit.ReplaceChild(activeContainer, this)
-                                    activeSplit.SetActiveChild(this)
-                                    sourceParent.ReplaceChild(this, activeContainer)
-                                    sourceParent.SetActiveChild(activeContainer)
-                                }
-                                else if(activeContainer.GetIndex() < this.GetIndex())
-                                {
-                                    sourceParent.ReplaceChild(this, activeContainer)
-                                    sourceParent.SetActiveChild(activeContainer)
-                                    activeSplit.ReplaceChild(activeContainer, this)
-                                    activeSplit.SetActiveChild(this)
-                                }
-                            }
-                            else
+                            if(activeContainer.GetIndex() > this.GetIndex())
                             {
                                 activeSplit.ReplaceChild(activeContainer, this)
                                 activeSplit.SetActiveChild(this)
                                 sourceParent.ReplaceChild(this, activeContainer)
                                 sourceParent.SetActiveChild(activeContainer)
                             }
+                            else if(activeContainer.GetIndex() < this.GetIndex())
+                            {
+                                sourceParent.ReplaceChild(this, activeContainer)
+                                sourceParent.SetActiveChild(activeContainer)
+                                activeSplit.ReplaceChild(activeContainer, this)
+                                activeSplit.SetActiveChild(this)
+                            }
                         }
-                    }
-                }
-            }
-
-            return
-        }
-        else
-        {
-            ; Move window into work area
-            offset := GetWindowGapOffset(this.hwnd)
-
-            workArea := this.GetWorkArea(true)
-            workAreaWidth := workArea.right - workArea.left
-            workAreaHeight := workArea.bottom - workArea.top
-
-            tx := workArea.left - offset.left
-            ty := (workArea.top - offset.top) + this.titleBar.height
-            tw := workAreaWidth + offset.left + offset.right
-            th := (workAreaHeight + offset.top + offset.bottom) - this.titleBar.height
-            
-            winPos := GetWindowPosition(this.hwnd)
-            if(tx != winPos.x || ty != winPos.y || tw != winPos.w || th != winPos.h)
-            {
-                SetWindowPosition(this.hwnd, tx, ty, tw, th)
-            }
-
-            ; Minimize if not on active workspace
-            if(this.GetParentWorkspace() != this.GetParentMonitor().GetActiveChild())
-            {
-                LogMessage("Minimizing inactive workspace window " . this.hwnd)
-                this.SetMinimized()
-            }
-            else
-            {
-                ; Restore if this is the maximized window
-                maximizedWindow := this.GetParentWorkspace().maximizedWindow
-                if(maximizedWindow == this)
-                {
-                    LogMessage("Maximizing active workspace maximized window " . this.hwnd)
-                    this.SetMaximized()
-                }
-                else if(maximizedWindow != "")
-                {
-                    LogMessage("Minimizing active workspace non-maximized window " . this.hwnd)
-                    this.SetMinimized()
-                }
-                else
-                {
-                    parentSplit := this.GetParentSplit()
-                    if(parentSplit.layout == Layout_Tabbed && parentSplit.GetActiveChild() != this)
-                    {
-                        LogMessage("Minimizing active workspace unfocused tabbed window " . this.hwnd)
-                        this.SetMinimized()
+                        else
+                        {
+                            activeSplit.ReplaceChild(activeContainer, this)
+                            activeSplit.SetActiveChild(this)
+                            sourceParent.ReplaceChild(this, activeContainer)
+                            sourceParent.SetActiveChild(activeContainer)
+                        }
                     }
                 }
             }
         }
     }
 
+    UpdatePosition()
+    {
+        ; Move window into work area
+        offset := GetWindowGapOffset(this.hwnd)
+
+        workArea := this.GetWorkArea()
+        workAreaWidth := workArea.right - workArea.left
+        workAreaHeight := workArea.bottom - workArea.top
+
+        tx := workArea.left - offset.left
+        ty := (workArea.top - offset.top)
+        tw := workAreaWidth + offset.left + offset.right
+        th := (workAreaHeight + offset.top + offset.bottom)
+
+        if(this.GetParentWorkspace().maximizedWindow != this)
+        {
+            ty += this.frame.height
+            th -= this.frame.height
+        }
+        
+        winPos := GetWindowPosition(this.hwnd)
+        if(tx != winPos.x || ty != winPos.y || tw != winPos.w || th != winPos.h)
+        {
+            SetWindowPosition(this.hwnd, tx, ty, tw, th)
+        }
+    }
+    
     IsFloating()
     {
         return this.parent.__Class == "WorkspaceContainer"
@@ -361,12 +332,12 @@ class WindowContainer extends Container
             {
                 offset := GetWindowGapOffset(this.hwnd)
 
-                workArea := this.GetWorkArea(true)
+                workArea := this.GetWorkArea()
                 workAreaWidth := workArea.right - workArea.left
                 workAreaHeight := workArea.bottom - workArea.top
 
                 tx := workArea.left - offset.left
-                ty := workArea.top - offset.top
+                ty := workArea.top - offset.top + this.frame.height
 
                 WinGetPos,x,y
                 if(x != tx || y != ty)
@@ -379,15 +350,12 @@ class WindowContainer extends Container
         return false
     }
 
-    GetWorkArea(useGapOffset = false)
+    GetWorkArea()
     {
         global Layout_Split
         global Layout_Tabbed
         global Orientation_H
         global Orientation_V
-
-        parentMonitor := this.GetParentMonitor()
-        parentSplit := this.GetParentSplit()
 
         if(this.IsFloating())
         {
@@ -395,91 +363,24 @@ class WindowContainer extends Container
             return { left: winPos.x, top: winPos.y, right: winPos.x + winPos.w, bottom: winPos.y + winPos.h }
         }
 
-        if(GetWindowIsMinimized(this.hwnd))
+        if(this == this.GetParentWorkspace().maximizedWindow)
         {
-            return { left: 0, top: 0, right: 0, bottom: 0 }
-        }
-
-        if(GetWindowIsMaximized(this.hwnd))
-        {
-            return parentMonitor.GetWorkArea()
+            return this.GetParentWorkspace().GetWorkArea()
         }
 
         workArea := base.GetWorkArea()
 
-        if(useGapOffset)
+        return workArea
+    }
+
+    WorkAreaContainsPoint(x,y)
+    {
+        if(GetWindowIsHidden(this.hwnd))
         {
-            innerGap := parentMonitor.innerGap
-            halfGap := Floor(innerGap / 2)
-            if(parentSplit.layout == Layout_Split)
-            {
-                if(parentSplit.orientation == Orientation_H)
-                {
-                    if(this.GetIndex() == 1)
-                    {
-                        workArea.left += innerGap
-                        if(this.parent.GetChildCount() == 1)
-                        {
-                            workArea.right -= innerGap
-                        }
-                        else
-                        {
-                            workArea.right -= halfGap
-                        }
-                    }
-                    else if(this.GetIndex() == this.parent.GetChildCount())
-                    {
-                        workArea.left += halfGap
-                        workArea.right -= innerGap
-                    }
-                    else
-                    {
-                        workArea.left += halfGap
-                        workArea.right -= halfGap
-                    }
-
-                    workArea.top += innerGap
-                    workArea.bottom -= innerGap
-                }
-                else if(parentSplit.orientation == Orientation_V)
-                {
-                    if(this.GetIndex() == 1)
-                    {
-                        workArea.top += innerGap
-                        if(this.parent.GetChildCount() == 1)
-                        {
-                            workArea.bottom -= innerGap
-                        }
-                        else
-                        {
-                            workArea.bottom -= halfGap
-                        }
-                    }
-                    else if(this.GetIndex() == this.parent.GetChildCount())
-                    {
-                        workArea.top += halfGap
-                        workArea.bottom -= innerGap
-                    }
-                    else
-                    {
-                        workArea.top += halfGap
-                        workArea.bottom -= halfGap
-                    }
-
-                    workArea.left += innerGap
-                    workArea.right -= innerGap
-                }
-            }
-            else
-            {
-                workArea.left += innerGap
-                workArea.top += innerGap
-                workArea.right -= innerGap
-                workArea.bottom -= innerGap
-            }
+            return false
         }
 
-        return workArea
+        return base.WorkAreaContainsPoint(x,y)
     }
 
     ToString()

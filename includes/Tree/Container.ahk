@@ -8,6 +8,8 @@ class Container
     splitAxis := ""
     guiTreeEntry := 0
 
+    frame := 0
+
     __New(ByRef parent)
     {
         this.parent := parent
@@ -15,10 +17,57 @@ class Container
 
     Update()
     {
+        if(!this.frame)
+        {
+            this.CreateFrame()
+        }
+
         for index, element in this.children
         {
             element.Update()
         }
+
+        if(this.frame)
+        {
+            this.UpdateFrame()
+        }
+    }
+
+    Destroy()
+    {
+        while(this.children.Length() > 0)
+        {
+            this.children[1].Destroy()
+        }
+
+        if(this.frame)
+        {
+            this.frame.Destroy()
+            this.frame := 0
+        }
+
+        this.activeChild := 0
+        this.lastActiveChild := 0
+
+        this.parent.RemoveChild(this)
+    }
+
+    CreateFrame()
+    {
+        this.frame := new TextFrame()
+    }
+
+    UpdateFrame()
+    {
+        workArea := this.GetWorkArea()
+        this.frame.SetPosition(workArea.left, workArea.top, workArea.right - workArea.left, workArea.bottom - workArea.top)
+
+        this.frame.SetText(this.ToString())
+        isActive := this.parent.GetActiveChild() == this
+        this.frame.SetColor(isActive ? "4A6EFF" : "E0E0E0")
+        this.frame.SetTextColor(isActive ? "FFFFFF" : "000000")
+
+        this.frame.Update()
     }
 
     AddChild(ByRef child)
@@ -158,6 +207,8 @@ class Container
         this.parent.SetActiveChild(this)
         this.parent.SetActiveContainer(false)
 
+        WinSet, Bottom,, % "ahk_id " . this.frame.hwnd
+
         if(tryWarpMouse)
         {
             TryWarpMouse(this)
@@ -216,28 +267,54 @@ class Container
         parentOrientation := this.parent.GetOrientation()
         parentLayout := this.parent.GetLayout()
 
+        parentWorkArea.top += this.parent.frame.height
+
+        workArea := parentWorkArea
+
         if(parentLayout == Layout_Split)
         {
+            innerGap := this.GetParentMonitor().innerGap
+
             if(parentOrientation == Orientation_H)
             {
                 pw := parentWorkArea.right - parentWorkArea.left
                 lw := pw / this.parent.GetChildCount()
                 lx := parentWorkArea.left + (lw * (this.GetIndex() - 1))
-                return { left: Floor(lx), top: parentWorkArea.top, right: Ceil(lx + lw), bottom: parentWorkArea.bottom }
+                workArea := { left: Floor(lx), top: parentWorkArea.top, right: Ceil(lx + lw), bottom: parentWorkArea.bottom }
+
+                if(this.GetIndex() > 1)
+                {
+                    workArea.left += Ceil(innerGap / 2)
+                }
+
+                if(this.GetIndex() < this.parent.GetChildCount())
+                {
+                    workArea.right -= Floor(innerGap / 2)
+                }
             }
             else if(parentOrientation == Orientation_V)
             {
                 ph := parentWorkArea.bottom - parentWorkArea.top
                 lh := ph / this.parent.GetChildCount()
                 ly := parentWorkArea.top + (lh * (this.GetIndex() - 1))
-                return { left: parentWorkArea.left, top: Floor(ly), right: parentWorkArea.right, bottom: Ceil(ly + lh) }
+                workArea := { left: parentWorkArea.left, top: Floor(ly), right: parentWorkArea.right, bottom: Ceil(ly + lh) }
+                
+                if(this.GetIndex() > 1)
+                {
+                    workArea.top += innerGap / 2
+                }
+
+                if(this.GetIndex() < this.parent.GetChildCount())
+                {
+                    workArea.bottom -= innerGap / 2
+                }
             }
         }
 
-        return parentWorkArea
+        return workArea
     }
 
-    WorkAreaContainsPoint(x,y)
+    WorkAreaContainsPoint(x, y)
     {
         workArea := this.GetWorkArea()
         if(x > workArea.left && x < workArea.right && y > workArea.top && y < workArea.bottom)

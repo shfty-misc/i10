@@ -66,5 +66,9 @@ Exit_Callback()
 {
     global appBarData
     DllCall("Shell32.dll\SHAppBarMessage", UInt, (ABM_REMOVE := 0x1), UInt, &appBarData)
+
+    global treeRoot
+    treeRoot.Destroy()
+
     ExitApp
 }

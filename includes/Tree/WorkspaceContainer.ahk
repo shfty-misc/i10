@@ -45,9 +45,20 @@ class WorkspaceContainer extends Container
         this.SetActiveChild(newSplit)
     }
 
-    GetWorkArea()
+    Update()
     {
-        return this.parent.GetWorkArea()
+        base.Update()
+
+        if(this.parent.GetActiveChild() != this)
+        {
+            SetWindowHidden(this.frame.hwnd)
+            SetWindowHidden(this.GetRootSplitContainer().frame.hwnd)
+        }
+        else
+        {
+            SetWindowShown(this.frame.hwnd)
+            SetWindowShown(this.GetRootSplitContainer().frame.hwnd)
+        }
     }
 
     GetRootSplitContainer()
@@ -61,6 +72,23 @@ class WorkspaceContainer extends Container
         }
 
         return ""
+    }
+
+    GetWorkArea()
+    {
+        workArea := base.GetWorkArea()
+
+        innerGap := this.GetParentMonitor().innerGap
+        
+        if(this.maximizedWindow == "")
+        {
+            workArea.left += innerGap
+            workArea.top += innerGap
+            workArea.right -= innerGap
+            workArea.bottom -= innerGap
+        }
+
+        return workArea
     }
 
     ToString()

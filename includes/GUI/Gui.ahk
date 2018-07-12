@@ -1,6 +1,8 @@
 ﻿#include includes/GUI/GuiFactory.ahk
-#include includes/GUI/TitleBar/GuiTitleBar.ahk
-#include includes/GUI/TitleBar/WindowTitleBar.ahk
+#include includes/GUI/GuiFrame/GuiFrame.ahk
+#include includes/GUI/GuiFrame/TextFrame.ahk
+#include includes/GUI/GuiFrame/WindowFrame.ahk
+#include includes/GUI/GuiFrame/MonitorFrame.ahk
 
 ; GUI
 mainGui := ""
@@ -30,7 +32,7 @@ GUI_Init()
     ; Setup GUI
     global guiFactory
     global mainGui
-    mainGui := guiFactory.CreateGUI("+Delimiter`n", "main")
+    mainGui := guiFactory.CreateGUI("+Delimiter`n +AlwaysOnTop", "main")
 
     ; Create tabs
     tabs := "State`nOptions`n"
