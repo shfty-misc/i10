@@ -20,6 +20,7 @@ Features
 
 Fixes
 =====
+-Fix skype CoreWindow again
 -Rename title bars to better reflect their role
     -Container visualizer?
 -Title bar / work area support for tab/stack layouts
