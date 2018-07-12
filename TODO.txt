@@ -28,6 +28,10 @@ Fixes
 =====
 -Check against current frame title/color to avoid re-setting and making the UI flicker
 
+-Prevent windows from being manually maximized
+
+-Fix splits leaving their frame at the top of the monitor when self-destroying
+
 -Frame / work area support for tab/stack layouts
 
 -Fix broken behaviour when moving current fullscreen window to a different workspace
