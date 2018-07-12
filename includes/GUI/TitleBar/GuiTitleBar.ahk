@@ -8,7 +8,7 @@ class GuiTitleBar
     __New()
     {
         global guiFactory
-        this.gui := guiFactory.CreateGUI("-Caption", "titleBar")
+        this.gui := guiFactory.CreateGUI("-Caption +ToolWindow", "titleBar")
             
         Gui, % this.gui . ":+HwndtitleBarHwnd"
         this.hwnd := titleBarHwnd

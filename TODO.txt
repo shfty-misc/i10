@@ -21,7 +21,8 @@ Features
 Fixes
 =====
 -Fix skype CoreWindow again
--Fix UE4 jockeying for focus
+-Fix UE4 blueprint editor jockeying for focus and preventing workspace switch
+-Fix window fighting when dragging text from firefox/chrome address bars
 -Rename title bars to better reflect their role
     -Container visualizer?
 -Title bar / work area support for tab/stack layouts
