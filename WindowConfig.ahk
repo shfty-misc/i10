@@ -28,7 +28,7 @@ IncludeWindow("Friends ahk_class vguiPopupWindow")                      ; Steam 
 IncludeWindow(".* - Chat ahk_class vguiPopupWindow")                    ; Steam Chat
 IncludeWindow(".* - qutebrowser ahk_class Qt5QWindowIcon")              ; Qutebrowser
 IncludeWindow("ahk_class UnrealWindow")                                 ; Unreal Engine 4
-IncludeWindow(".* - Perforce Helix P4V ahk_class Qt5QWindowIcon")       ; Perforce
+IncludeWindow(".*P4V ahk_class Qt5QWindowIcon")       ; Perforce
 IncludeWindow("Blizzard Battle.net ahk_class Qt5QWindowOwnDCIcon")      ; Battle.net
 IncludeWindow(".* - RemotePC ahk_class RPCMDI_Window")                  ; RemotePC Client Window
 

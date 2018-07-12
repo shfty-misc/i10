@@ -69,7 +69,7 @@ class WindowContainer extends Container
         {
             activeHwnd := WinExist("A")
 
-            if(activeHwnd == this.titleBarHwnd)
+            if(activeHwnd == this.titleBar.hwnd)
             {
                 SetWindowActive(this.hwnd)
             }

@@ -11,6 +11,11 @@ Disable edge snapping
 ---------------------
 Settings > System > Multitasking > Disable 'Arrange windows automatically by dragging'
 
+Disable game bar & DVR
+----------------------
+Settings > Gaming > Game Bar > Disable
+Settings > Gaming > Game DVR > Disable
+
 Prevent windows store, photos and settings applications auto-opening
 --------------------------------------------------------------------
 -Disable SuperFetch via cmd
