@@ -18,6 +18,7 @@ ExcludePopup("ahk_class Qt5QWindowPopupDropShadowSaveBits")            ; Qt drop
 ExcludePopup("ahk_class Qt5QWindowToolTipDropShadowSaveBits")          ; Qt tooltips
 ExcludePopup("ahk_class SysShadow")                                    ; Shadows
 ExcludePopup("ahk_class MozillaWindowClass")                           ; Firefox tooltips
+ExcludePopup("^$ ahk_class UnrealWindow")                                ; UE4 Tooltips
 
 FloatWindow("ahk_class OperationStatusWindow")                          ; File explorer progress dialogs
 FloatWindow("ahk_class #32770")                                         ; Popup dialogs
