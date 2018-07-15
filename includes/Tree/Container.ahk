@@ -5,7 +5,6 @@ class Container
     children := []
     activeChild := ""
     lastActiveChild := ""
-    splitAxis := ""
     guiTreeEntry := 0
 
     frame := 0
@@ -57,15 +56,22 @@ class Container
         this.frame := new TextFrame()
     }
 
+    GetFrameArea()
+    {
+        frameArea := this.GetWorkArea()
+        frameArea := this.GetWorkArea()
+        frameArea.bottom := frameArea.top + this.frame.height
+        return frameArea
+    }
+
     UpdateFrame()
     {
-        workArea := this.GetWorkArea()
-        this.frame.SetPosition(workArea.left, workArea.top, workArea.right - workArea.left, workArea.bottom - workArea.top)
+        frameArea := this.GetFrameArea()
+        this.frame.SetPosition(frameArea.left, frameArea.top, frameArea.right - frameArea.left, frameArea.bottom - frameArea.top)
 
-        this.frame.SetText(this.ToString())
         isActive := this.parent.GetActiveChild() == this
-        this.frame.SetColor(isActive ? "4A6EFF" : "E0E0E0")
-        this.frame.SetTextColor(isActive ? "FFFFFF" : "000000")
+        this.frame.SetBackgroundColor(isActive ? "4A6EFF" : "E0E0E0")
+        this.frame.SetTextElementColor(isActive ? "FFFFFF" : "000000", "Title")
 
         this.frame.Update()
     }
@@ -106,7 +112,11 @@ class Container
             this.children.RemoveAt(childIndex)
 
             newActiveChild := ""
-            if(this.children[childIndex] != "")
+            if(IndexOf(this.GetLastActiveChild(), this.children) != -1)
+            {
+                newActiveChild := this.GetLastActiveChild()
+            }
+            else if(this.children[childIndex] != "")
             {
                 newActiveChild := this.children[childIndex]
             }
@@ -117,7 +127,7 @@ class Container
 
             if(newActiveChild != "")
             {
-                newActiveChild.SetActiveContainer(false)
+                newActiveChild.SetActiveContainer(true)
             }
             else
             {
@@ -278,7 +288,7 @@ class Container
             if(parentOrientation == Orientation_H)
             {
                 pw := parentWorkArea.right - parentWorkArea.left
-                lw := pw / this.parent.GetChildCount()
+                lw := Floor(pw / this.parent.GetChildCount())
                 lx := parentWorkArea.left + (lw * (this.GetIndex() - 1))
                 workArea := { left: Floor(lx), top: parentWorkArea.top, right: Ceil(lx + lw), bottom: parentWorkArea.bottom }
 
@@ -295,18 +305,18 @@ class Container
             else if(parentOrientation == Orientation_V)
             {
                 ph := parentWorkArea.bottom - parentWorkArea.top
-                lh := ph / this.parent.GetChildCount()
+                lh := Floor(ph / this.parent.GetChildCount())
                 ly := parentWorkArea.top + (lh * (this.GetIndex() - 1))
                 workArea := { left: parentWorkArea.left, top: Floor(ly), right: parentWorkArea.right, bottom: Ceil(ly + lh) }
                 
                 if(this.GetIndex() > 1)
                 {
-                    workArea.top += innerGap / 2
+                    workArea.top += Ceil(innerGap / 2)
                 }
 
                 if(this.GetIndex() < this.parent.GetChildCount())
                 {
-                    workArea.bottom -= innerGap / 2
+                    workArea.bottom -= Floor(innerGap / 2)
                 }
             }
         }

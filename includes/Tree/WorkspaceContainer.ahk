@@ -47,6 +47,12 @@ class WorkspaceContainer extends Container
 
     Update()
     {
+        if(this.GetChildCount() == 0 && this.parent.children.Length() > 1)
+        {
+            this.Destroy()
+            return
+        }
+
         base.Update()
 
         if(this.parent.GetActiveChild() != this || this.maximizedWindow != "")
@@ -59,6 +65,12 @@ class WorkspaceContainer extends Container
             SetWindowShown(this.frame.hwnd)
             SetWindowShown(this.GetRootSplitContainer().frame.hwnd)
         }
+    }
+
+    UpdateFrame()
+    {
+        base.UpdateFrame()
+        this.frame.SetTextElement(this.ToString(), "Title")
     }
 
     GetRootSplitContainer()

@@ -3,7 +3,6 @@ class SplitContainer extends Container
 {
     layout := Layout_None
     orientation := Orientation_None
-    guiSplitAxis := 0
     guiWorkArea := 0
 
     __New(ByRef parent, orientation, layout)
@@ -16,13 +15,26 @@ class SplitContainer extends Container
 
     Update()
     {
-        global treeRoot
-
-        if(this.parent.__Class != "WorkspaceContainer" && this.parent.__Class != "RootContainer")
+        if(this.parent.__Class != "RootContainer")
         {
-            if(this.GetChildCount() == 0)
+            if(this.parent.__Class == "WorkspaceContainer")
             {
-                this.Destroy()
+                if(this.GetParentMonitor().children.Length() != 1 && this.GetParentWorkspace() != this.GetParentMonitor().GetActiveChild())
+                {
+                    if(this.GetChildCount() == 0)
+                    {
+                        this.Destroy()
+                        return
+                    }
+                }
+            }
+            else
+            {
+                if(this.GetChildCount() == 0)
+                {
+                    this.Destroy()
+                    return
+                }
             }
         }
 
@@ -37,6 +49,23 @@ class SplitContainer extends Container
     GetOrientation()
     {
         return this.orientation
+    }
+
+    CreateFrame()
+    {
+        if(this.parent.__Class != "RootContainer")
+        {
+            base.CreateFrame()
+        }
+    }
+
+    UpdateFrame()
+    {
+        if(this.parent.__Class != "RootContainer")
+        {
+            base.UpdateFrame()
+            this.frame.SetTextElement(this.ToString(), "Title")
+        }
     }
 
     ToString()
@@ -55,17 +84,12 @@ class SplitContainer extends Container
     {
         base.PopulateGUI(guiParent)
 
-        this.guiSplitAxis := TV_Update(this.guiSplitAxis, this.guiTreeEntry, "Split Axis: " . this.GetSplitAxis(), "+First")
-
         workArea := this.GetWorkArea()
         this.guiWorkArea := TV_Update(this.guiWorkArea, this.guiTreeEntry, "Work Area: " . workArea.left . ", " . workArea.top . ", " . workArea.right . ", " . workArea.bottom, "+First")
     }
 
     MarkGUIDirty()
     {
-        TV_Delete(this.guiSplitAxis)
-        this.guiSplitAxis := 0
-
         TV_Delete(this.guiWorkArea)
         this.guiWorkArea := 0
 

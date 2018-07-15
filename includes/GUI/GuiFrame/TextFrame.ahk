@@ -1,45 +1,58 @@
 class TextFrame extends GuiFrame
 {
-    text := ""
-    
-    __New()
-    {
-        base.__New()
-    }
+    textElements := {}
+    textColors := {}
 
     Init()
     {
-        this.Init_Internal(this.gui)
+        this.PopulateText()
         base.Init()
     }
 
-    Init_Internal(gui)
+    PopulateText()
+    {
+        this.AddTextElement(this.gui, "Title")
+    }
+
+    AddTextElement(gui, name)
     {
         global
-        Gui, % gui . ":Add", Text, % "v" . gui . "Title" . " w10000"
+        Gui, % gui . ":Add", Text, % "v" . gui . name . " x+10 y7 w100"
     }
 
-    SetText(newText)
+    SetTextElement(newText, elementName)
     {
-        this.text := newText
-        this.SetText_Internal(this.gui, this.text)
+        if(this.textElements[elementName] != newText)
+        {
+            this.textElements[elementName] := newText
+            this.SetTextElement_Internal(this.gui, elementName, this.textElements[elementName])
+        }
     }
 
-    SetText_Internal(gui, newText)
+    SetTextElement_Internal(gui, elementName, newText)
     {
         global
-        GuiControl, % gui . ":Text", % gui . "Title", % newText
+        GuiControl, % gui . ":Text", % gui . elementName, % newText
     }
 
-    SetTextColor(newTextColor)
+    GetTextElementColor(elementName)
     {
-        this.SetTextColor_Internal(this.gui, newTextColor)
+        return this.textColors[elementName]
     }
 
-    SetTextColor_Internal(gui, newTextColor)
+    SetTextElementColor(newTextColor, elementName)
+    {
+        if(this.textColors[elementName] != newTextColor)
+        {
+            this.textColors[elementName] := newTextColor
+            this.SetTextElementColor_Internal(this.gui, elementName, this.textColors[elementName])
+        }
+    }
+
+    SetTextElementColor_Internal(gui, elementName, newTextColor)
     {
         global
         Gui, % gui . ":Font", % "c" . newTextColor, Verdana
-        GuiControl, % gui . ":Font", % gui . "Title"
+        GuiControl, % gui . ":Font", % gui . elementName
     }
 }

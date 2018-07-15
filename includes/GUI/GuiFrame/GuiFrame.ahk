@@ -4,13 +4,14 @@ class GuiFrame
     hwnd := 0
     height := 24
     border := 2
+    backgroundColor := ""
 
     bounds := { x: 0, y:0, w:0, h:0 }
 
     __New()
     {
         global guiFactory
-        this.gui := guiFactory.CreateGUI("-Caption +ToolWindow", "frame")
+        this.gui := guiFactory.CreateGUI("-Caption +ToolWindow", this.__Class)
             
         Gui, % this.gui . ":+HwndframeHwnd"
         this.hwnd := frameHwnd
@@ -30,23 +31,24 @@ class GuiFrame
 
     Destroy()
     {
+        WinClose, % "ahk_id " . this.hwnd
+        this.hwnd := 0
+
         Gui, % this.gui . ":Destroy"
         this.gui := 0
-        this.hwnd := 0
     }
 
-    SetColor(color)
+    SetBackgroundColor(newColor)
     {
-        Gui, % this.gui . ":Color", % color
+        if(this.backgroundColor != newColor)
+        {
+            this.backgroundColor := newColor
+            Gui, % this.gui . ":Color", % this.backgroundColor
+        }
     }
 
     SetPosition(x, y, w, h)
     {
-        this.bounds.x := x - this.border
-        this.bounds.y := y
-        this.bounds.w := w + this.border * 2
-        this.bounds.h := this.height
-
-        SetWindowPosition(this.hwnd, this.bounds.x, this.bounds.y, this.bounds.w, this.bounds.h)
+        SetWindowPosition(this.hwnd, x, y, w, h)
     }
 }

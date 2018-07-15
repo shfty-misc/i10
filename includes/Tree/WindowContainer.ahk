@@ -6,7 +6,6 @@ class WindowContainer extends Container
     guiTreeTitle := 0
     guiTreeClass := 0
     guiTreeWorkArea := 0
-    guiTreeSplitAxis := 0
 
     __New(ByRef parent, hwnd)
     {
@@ -54,7 +53,6 @@ class WindowContainer extends Container
             {
                 this.UpdatePosition()
             }
-
         }
 
         this.UpdateVisibility()
@@ -86,7 +84,7 @@ class WindowContainer extends Container
     {
         if(!this.IsFloating())
         {
-            this.frame := new WindowFrame()
+            this.frame := new TextFrame()
 
             ; Move frame below window
             WinSet, Bottom,, % "ahk_id " . this.frame.hwnd
@@ -100,8 +98,37 @@ class WindowContainer extends Container
         windowTitle := GetWindowTitle(this.hwnd)
         if(windowTitle != this.frame.titleText)
         {
-            this.frame.SetText(windowTitle)
+            this.frame.SetTextElement(windowTitle, "Title")
         }
+    }
+
+    GetFrameArea()
+    {
+        global Layout_Tabbed
+        global Orientation_H
+        global Orientation_V
+
+        frameArea := this.GetWorkArea()
+        frameArea.bottom := frameArea.top + this.frame.height
+
+        if(this.parent.layout == Layout_Tabbed)
+        {
+            if(this.parent.orientation == Orientation_H)
+            {
+                tabWidth := frameArea.right - frameArea.left
+                frameWidth := Floor(tabWidth / this.parent.children.Length())
+
+                frameArea.left := frameArea.left + frameWidth * (this.GetIndex() - 1)
+                frameArea.right := frameArea.left + frameWidth
+            }
+            else if(this.parent.orientation == Orientation_V)
+            {
+                frameArea.top += this.frame.height * (this.GetIndex() - 1)
+                frameArea.bottom += this.frame.height * (this.GetIndex() - 1)
+            }
+        }
+
+        return frameArea
     }
 
     Close()
@@ -182,6 +209,7 @@ class WindowContainer extends Container
                 if(isTab && !isActiveTab)
                 {
                     this.SetHidden()
+                    SetWindowShown(this.frame.hwnd)
                 }
             }
         }
@@ -215,6 +243,11 @@ class WindowContainer extends Container
                     }
                 }
             }
+        }
+
+        if(GetWindowIsMinimized(this.hwnd) || GetWindowIsMaximized(this.hwnd))
+        {
+            this.SetRestored()
         }
     }
 
@@ -294,28 +327,14 @@ class WindowContainer extends Container
 
     UpdatePosition()
     {
-        ; Move window into work area
-        offset := GetWindowGapOffset(this.hwnd)
-
-        workArea := this.GetWorkArea()
-        workAreaWidth := workArea.right - workArea.left
-        workAreaHeight := workArea.bottom - workArea.top
-
-        tx := workArea.left - offset.left
-        ty := (workArea.top - offset.top)
-        tw := workAreaWidth + offset.left + offset.right
-        th := (workAreaHeight + offset.top + offset.bottom)
-
-        if(this.GetParentWorkspace().maximizedWindow != this)
-        {
-            ty += this.frame.height
-            th -= this.frame.height
-        }
+        windowArea := this.GetWindowArea()
+        windowAreaWidth := windowArea.right - windowArea.left
+        windowAreaHeight := windowArea.bottom - windowArea.top
         
         winPos := GetWindowPosition(this.hwnd)
-        if(tx != winPos.x || ty != winPos.y || tw != winPos.w || th != winPos.h)
+        if(windowArea.left != winPos.x || windowArea.top != winPos.y || windowAreaWidth != winPos.w || windowAreaHeight != winPos.h)
         {
-            SetWindowPosition(this.hwnd, tx, ty, tw, th)
+            SetWindowPosition(this.hwnd, windowArea.left, windowArea.top, windowAreaWidth, windowAreaHeight)
         }
     }
     
@@ -330,17 +349,10 @@ class WindowContainer extends Container
         {
             if(GetKeyState("LButton"))
             {
-                offset := GetWindowGapOffset(this.hwnd)
-
-                workArea := this.GetWorkArea()
-                workAreaWidth := workArea.right - workArea.left
-                workAreaHeight := workArea.bottom - workArea.top
-
-                tx := workArea.left - offset.left
-                ty := workArea.top - offset.top + this.frame.height
+                windowArea := this.GetWindowArea()
 
                 WinGetPos,x,y
-                if(x != tx || y != ty)
+                if(x != windowArea.left || y != windowArea.top)
                 {
                     return true
                 }
@@ -371,6 +383,41 @@ class WindowContainer extends Container
         workArea := base.GetWorkArea()
 
         return workArea
+    }
+
+    GetWindowArea()
+    {
+        offset := GetWindowGapOffset(this.hwnd)
+
+        workArea := this.GetWorkArea()
+        workAreaWidth := workArea.right - workArea.left
+        workAreaHeight := workArea.bottom - workArea.top
+
+        tx := workArea.left - offset.left
+        ty := workArea.top - offset.top
+        tw := workAreaWidth + offset.left + offset.right
+        th := workAreaHeight + offset.top + offset.bottom
+
+        if(this.GetParentWorkspace().maximizedWindow != this)
+        {
+            height := 0
+            
+            global Layout_Tabbed
+            global Orientation_V
+            if(this.parent.layout == Layout_Tabbed && this.parent.orientation == Orientation_V)
+            {
+                height := this.frame.height * this.parent.children.Length()
+            }
+            else
+            {
+                height := this.frame.height
+            }
+
+            ty += height
+            th -= height
+        }
+
+        return { left: tx, top: ty, right: tx + tw, bottom: ty + th }
     }
 
     WorkAreaContainsPoint(x,y)
@@ -409,8 +456,6 @@ class WindowContainer extends Container
 
         workArea := this.GetWorkArea()
         this.guiTreeWorkArea := TV_Update(this.guiTreeWorkArea, this.guiTreeEntry, "Work Area: " . workArea.left . ", " . workArea.top . ", " . workArea.right . ", " . workArea.bottom, "")
-
-        this.guiTreeSplitAxis := TV_Update(this.guiTreeSplitAxis, this.guiTreeEntry, "Split Axis: " . this.GetSplitAxis(), "")
     }
 
     MarkGUIDirty()
@@ -423,9 +468,6 @@ class WindowContainer extends Container
 
         TV_Delete(this.guiTreeWorkArea)
         this.guiTreeWorkArea := 0
-
-        TV_Delete(this.guiTreeSplitAxis)
-        this.guiTreeSplitAxis := 0
 
         base.MarkGUIDirty()
     }

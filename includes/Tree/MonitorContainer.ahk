@@ -31,6 +31,29 @@ class MonitorContainer extends Container
         this.frame := new MonitorFrame()
     }
 
+    UpdateFrame()
+    {
+        base.UpdateFrame()
+
+        workspaceText := ""
+        for index, element in this.children
+        {
+            if(element == this.GetActiveChild())
+            {
+                workspaceText .= element == this.GetActiveChild() ? "[" : " "
+            }
+            workspaceText .= element.workspaceIndex
+            if(element == this.GetActiveChild())
+            {
+                workspaceText .= element == this.GetActiveChild() ? "]" : " "
+            }
+
+            workspaceText .= " "
+        }
+
+        this.frame.SetTextElement(workspaceText, "Title")
+    }
+
     GetDisplayArea()
     {
         monitor := this.monitor
@@ -43,6 +66,13 @@ class MonitorContainer extends Container
         monitor := this.monitor
         SysGet monWorkArea, MonitorWorkArea, %monitor%
         return {left: monWorkAreaLeft + this.outerGap, top: monWorkAreaTop + this.outerGap, right: monWorkAreaRight - this.outerGap, bottom: monWorkAreaBottom - this.outerGap}
+    }
+
+    GetFrameArea()
+    {
+        frameArea := this.GetWorkArea()
+        frameArea.bottom := frameArea.top + this.frame.height
+        return frameArea
     }
 
     ToString()

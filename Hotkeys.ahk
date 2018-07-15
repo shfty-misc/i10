@@ -16,8 +16,10 @@ LWin::vk07
 pause::pause
 
 ; Split Axis
-#h::SetSplitAxis(Orientation_H)
-#v::SetSplitAxis(Orientation_V)
+#h::SplitActiveContainer(Orientation_H)
+#v::SplitActiveContainer(Orientation_V)
+#+h::SplitActiveContainerWithPlaceholder(Orientation_H)
+#+v::SplitActiveContainerWithPlaceholder(Orientation_V)
 
 ; Layout
 #e::ToggleSplitLayout()

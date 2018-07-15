@@ -1,5 +1,9 @@
 Features
 ========
+-Proper monitor frame functionality
+    -Correct alignment using width
+    -Taskbar icon popup
+
 -Theme options for GUI colours, fonts
 
 -GUI-driven include / exclude configuration
@@ -12,7 +16,10 @@ Features
 
 -Github-driven auto update using URlDownloadToFile and https://github.com/:owner/:repo/zipball/:branch
 
--Layout save/restore with placeholder GUI windows
+-Placeholder GUI windows
+    -Take WinTitle as a member variable, wait for it and convert into window container using hwnd
+
+-Layout save/restore
 
 -Floating window move/resize hotkeys
 
@@ -26,28 +33,18 @@ Features
 
 Fixes
 =====
--Check against current frame title/color to avoid re-setting and making the UI flicker
-
--Prevent windows from being manually maximized
-
--Fix splits leaving their frame at the top of the monitor when self-destroying
-
--Frame / work area support for tab/stack layouts
+-Fix window hiding conflicts (ex. steam, deluge, file explorer progress dialogs)
+    -Show/hide windows on workspace/fullscreen/tab switch instead of every frame
+        -Should allow containers to store their visibility state explicitly rather than implicitly
+    -Need to remove/disable window containers
+        -Is it better to destroy containers or exclude them from the tree during iteration?
 
 -Fix broken behaviour when moving current fullscreen window to a different workspace
 
 -Check window for min/max size in WindowContainer, center in work area rather than aligning top-left
     -Should allow for nicer management of fixed-size windows like the UE4 splash
-
--Jitter / flicker on all but one workspace
-    -Happens intermittently when switching away from a workspace
-        -All but the source workspace start flickering
         
 -Revisit undocking / implicit split behaviour (ex. 2V containing a 2H and 1W, try to move child of 2H upward, doesn't turn 2V into a 3V)
-
--Fix window drag not taking split creation into account
-    -Refactor split creation to happen on press rather than window spawn
-        -Use WindowContainer with GUI placeholder until HWND is assigned
 
 -More robust monitor-to-monitor navigation
     -Need a solution that doesn't assume monitors are laid out in a linear fashion
@@ -56,9 +53,6 @@ Fixes
 -Fix floating windows not responding to moving via keyboard
 
 -Fix frames obscuring windows when clicked
-
--Fix inability to navigate away from ConEmu
-    -Seems JOSH-DEV specific
 
 -Fix certain windows causing windows key to fall through and activate the start menu
     -Reproducible with RemotePC client window

@@ -165,13 +165,28 @@ GetMonitorUnderMouse()
     return ""
 }
 
-SetSplitAxis(newSplitAxis)
+SplitActiveContainer(newSplitAxis)
 {
     activeContainer := GetActiveContainer()
     if(activeContainer.__Class == "WindowContainer")
     {
-        activeContainer.splitAxis := newSplitAxis
+        activeWorkspace := GetActiveMonitorContainer().GetActiveChild()
+        leafSplit := GetLeafSplitContainer(GetWorkspaceRootSplitContainer(activeWorkspace))
+        activeWindow := leafSplit.GetActiveChild()
+
+        ; Create new split container and add to parent split container
+        global Layout_Split
+        newSplit := new SplitContainer(leafSplit, newSplitAxis, Layout_Split)
+        leafSplit.ReplaceChild(activeWindow, newSplit)
+        newSplit.AddChild(activeWindow)
+        activeWindow.SetActiveContainer()
     }
+}
+
+SplitActiveContainerWithPlaceholder(newSplitAxis)
+{
+    SplitActiveContainer(newSplitAxis)
+    Run, C:\Shortcuts\ConEmu.lnk
 }
 
 SetLayout(layout)

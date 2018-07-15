@@ -1,7 +1,6 @@
 ﻿#include includes/GUI/GuiFactory.ahk
 #include includes/GUI/GuiFrame/GuiFrame.ahk
 #include includes/GUI/GuiFrame/TextFrame.ahk
-#include includes/GUI/GuiFrame/WindowFrame.ahk
 #include includes/GUI/GuiFrame/MonitorFrame.ahk
 
 ; GUI

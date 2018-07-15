@@ -12,6 +12,17 @@ IndexOf(object, ByRef array)
     return -1
 }
 
+GetSystemVolume()
+{
+    SoundGet, systemVolume
+    return systemVolume
+}
+
+GetNetworkIsConnected(flag = 0x40)
+{
+    return DllCall("Wininet.dll\InternetGetConnectedState", "Str", flag,"Int",0) 
+}
+
 SetTaskbarVisibile(visible)
 {
     if(visible)

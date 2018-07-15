@@ -159,26 +159,7 @@ class RootContainer extends Container
                             {
                                 activeWorkspace := monitor.GetActiveChild()
                                 leafSplit := GetLeafSplitContainer(GetWorkspaceRootSplitContainer(activeWorkspace))
-                                activeWindow := leafSplit.GetActiveChild()
-
-                                if(activeWindow.splitAxis == "")
-                                {
-                                    leafSplit.AddChild(newWindow)
-                                }
-                                else
-                                {
-                                    ; Set the new layout
-                                    orientation := activeWindow.splitAxis
-                                    activeWindow.splitAxis := ""
-
-                                    ; Create new split container and add to parent split container
-                                    newSplit := new SplitContainer(leafSplit, orientation, Layout_Split)
-                                    leafSplit.ReplaceChild(activeWindow, newSplit)
-                                    newSplit.AddChild(activeWindow, false)
-
-                                    ; Add this window to the new split container
-                                    newSplit.AddChild(newWindow)
-                                }
+                                leafSplit.AddChild(newWindow)
 
                                 if(activeWorkspace.maximizedWindow == "")
                                 {
@@ -269,6 +250,14 @@ class RootContainer extends Container
                 hoveredContainer.SetActiveContainer(false)
             }
         }
+    }
+
+    CreateFrame()
+    {
+    }
+
+    UpdateFrame()
+    {
     }
 
     HandleMouseDown()
