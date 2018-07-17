@@ -47,6 +47,12 @@ Fixes
 
 -Fix incorrect creation of splits when moving containers
 
+-Check for existing window of same process and insert adjacent when adding new window containers to the tree
+    -Should fix UE4 opening the editor on the currently active workspace rather than the one the splash appeared on
+
+-Fix Oculus app stealing focus from empty workspace
+    -Needed update at the time, does it steal focus periodically?
+
 -Fix window hiding conflicts (ex. steam, deluge, file explorer progress dialogs)
     -Show/hide windows on workspace/fullscreen/tab switch instead of every frame
         -Should allow containers to store their visibility state explicitly rather than implicitly
