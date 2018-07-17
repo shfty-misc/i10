@@ -3,8 +3,8 @@ ExcludeWindow("^$")                                                    ; Windows
 ExcludePopup("^$")                                                     ; Popups with no title
 ExcludeChild("^$")                                                     ; Children with no title
 
-ExcludeWindow("ahk_class Shell_TrayWnd")
-ExcludeWindow("ahk_class Shell_SecondaryTrayWnd")
+ExcludeWindow("ahk_class Shell_TrayWnd")                               ; Primary taskbar
+ExcludeWindow("ahk_class Shell_SecondaryTrayWnd")                      ; Secondary taskbars
 ExcludeWindow("ahk_class Windows.UI.Core.CoreWindow")                  ; UWA inner containers
 
 ExcludePopup("ahk_class Windows.UI.Core.CoreWindow")                   ; Taskbar right-click menus
@@ -29,11 +29,11 @@ FloatWindow("ahk_class #32770")                                         ; Popup 
 ExcludeWindow("Wox")                                                    ; Wox
 ExcludeWindow("NVIDIA GeForce Overlay")                                 ; GeForce overlay
 ExcludeWindow("^$ ahk_class UnrealWindow")                               ; UE4 Tooltips
+ExcludeWindow("ahk_class TApplication")                                ; VS Code installer frame
+ExcludeWindow("^((?!Deluge).)*$ ahk_class gdkWindowToplevel")           ; Deluge popups
 
 ExcludePopup("ahk_class MozillaWindowClass")                            ; Firefox tooltips
 ExcludePopup("^$ ahk_class UnrealWindow")                               ; UE4 Tooltips
-
-ExcludeWindow("^((?!Deluge).)*$ ahk_class gdkWindowToplevel")           ; Deluge popups
 
 FloatWindow("SteamVR Status ahk_class Qt5QWindowIcon")                  ; SteamVR status window
 FloatWindow("vrmonitor ahk_class Qt5QWindowToolSaveBits")               ; ???

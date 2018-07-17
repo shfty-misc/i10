@@ -1,7 +1,13 @@
 Features
 ========
+-Custom workspace names
+
+-Activate containers when clicking their frame
+
+-Cycle through tabbed split with mouse wheel while hovering frame
+
 -Proper monitor frame functionality
-    -Correct alignment using width
+    -Correct sizing and alignment using parent width
     -Taskbar icon popup
 
 -Theme options for GUI colours, fonts
@@ -33,6 +39,14 @@ Features
 
 Fixes
 =====
+-Fix workspace ordering
+    -Use workspace index as actual index, insert at appropriate position
+    -Use separate display name for top bar readout
+
+-Fix frames not hiding properly on workspace switch
+
+-Fix incorrect creation of splits when moving containers
+
 -Fix window hiding conflicts (ex. steam, deluge, file explorer progress dialogs)
     -Show/hide windows on workspace/fullscreen/tab switch instead of every frame
         -Should allow containers to store their visibility state explicitly rather than implicitly
@@ -51,8 +65,6 @@ Fixes
     -Remove root container split, offload navigation logic to root
 
 -Fix floating windows not responding to moving via keyboard
-
--Fix frames obscuring windows when clicked
 
 -Fix certain windows causing windows key to fall through and activate the start menu
     -Reproducible with RemotePC client window
