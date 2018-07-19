@@ -3,11 +3,10 @@ Features
 -Custom workspace names
 
 -Activate containers when clicking their frame
-
--Cycle through tabbed split with mouse wheel while hovering frame
+    -Needs a proper click handling system for frame elements
 
 -Proper monitor frame functionality
-    -Correct sizing and alignment using parent width
+    -Correct text sizing and alignment using parent width
     -Taskbar icon popup
 
 -Theme options for GUI colours, fonts
@@ -39,24 +38,14 @@ Features
 
 Fixes
 =====
--Fix workspace ordering
-    -Use workspace index as actual index, insert at appropriate position
-    -Use separate display name for top bar readout
-
--Fix frames not hiding properly on workspace switch
-
--Fix incorrect creation of splits when moving containers
-
--Check for existing window of same process and insert adjacent when adding new window containers to the tree
-    -Should fix UE4 opening the editor on the currently active workspace rather than the one the splash appeared on
-
--Fix Oculus app stealing focus from empty workspace
-
 -Fix window hiding conflicts (ex. steam, deluge, file explorer progress dialogs)
     -Show/hide windows on workspace/fullscreen/tab switch instead of every frame
         -Should allow containers to store their visibility state explicitly rather than implicitly
     -Need to remove/disable window containers
         -Is it better to destroy containers or exclude them from the tree during iteration?
+
+-Check for existing window of same process and insert adjacent when adding new window containers to the tree
+    -Should fix UE4 opening the editor on the currently active workspace rather than the one the splash appeared on
 
 -Fix broken behaviour when moving current fullscreen window to a different workspace
 

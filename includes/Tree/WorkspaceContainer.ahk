@@ -149,7 +149,7 @@ GetWorkspaceContainer(ByRef monitorContainer, workspaceIndex)
         {
             LogMessage("Workspace not found, creating...")
             newWorkspace := new WorkspaceContainer(monitorContainer, workspaceIndex)
-            monitorContainer.AddChild(newWorkspace)
+            monitorContainer.AddChildAt(workspaceIndex, newWorkspace)
             return newWorkspace
         }
 

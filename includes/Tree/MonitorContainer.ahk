@@ -31,6 +31,12 @@ class MonitorContainer extends Container
         this.frame := new MonitorFrame()
     }
 
+    RemoveChildAt(childIndex, updateActive = false)
+    {
+        ; Override updateActive to prevent auto-switching when an empty unfocused workspace destroys itself
+        base.RemoveChildAt(childIndex, false)
+    }
+
     UpdateFrame()
     {
         base.UpdateFrame()

@@ -7,8 +7,12 @@
 LWin & vk07::return
 LWin::vk07
 
+; Mouse input passthrough handlers
 ~LButton::treeRoot.HandleMouseDown()
+~WheelUp::treeRoot.HandleMouseWheel(-1)
+~WheelDown::treeRoot.HandleMouseWheel(1)
 
+; System commands
 #+e::exitapp
 #+r::reload
 #+p::pause

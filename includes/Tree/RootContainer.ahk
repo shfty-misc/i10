@@ -265,6 +265,22 @@ class RootContainer extends Container
         this.UpdateFocus()
     }
 
+    HandleMouseWheel(delta)
+    {
+        hoveredMonitor := GetMonitorUnderMouse()
+        hoveredContainer := GetContainerUnderMouse(hoveredMonitor.GetActiveChild())
+        MouseGetPos,,, hoveredHwnd
+
+        if(!GetWindowWithHwnd(this, hoveredHwnd))
+        {
+            leafSplit := GetActiveLeafSplitContainer()
+            if(leafSplit)
+            {
+                leafSplit.SetActiveChildIndex(leafSplit.GetActiveChildIndex() + delta)
+            }
+        }
+    }
+
     GetWorkArea()
     {
         return { left: 0, top: 0, right: 0, bottom: 0 }

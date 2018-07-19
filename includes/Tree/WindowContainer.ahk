@@ -153,13 +153,11 @@ class WindowContainer extends Container
 
     SetHidden()
     {
-        SetWindowHidden(this.frame.hwnd)
         SetWindowHidden(this.hwnd)
     }
 
     SetShown()
     {
-        SetWindowShown(this.frame.hwnd)
         SetWindowShown(this.hwnd)
     }
 
@@ -170,7 +168,7 @@ class WindowContainer extends Container
 
         global Layout_Tabbed
         isTab := this.parent.layout == Layout_Tabbed
-        isActiveTab := isTab && this.parent.GetActiveChild() == this
+        isActiveTab := isTab && this.IsActive()
 
         parentWorkspace := this.GetParentWorkspace()
         parentMonitor := this.GetParentMonitor()

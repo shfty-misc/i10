@@ -66,14 +66,34 @@ class Container
 
     UpdateFrame()
     {
+        ; Update frame position
         frameArea := this.GetFrameArea()
         this.frame.SetPosition(frameArea.left, frameArea.top, frameArea.right - frameArea.left, frameArea.bottom - frameArea.top)
 
-        isActive := this.parent.GetActiveChild() == this
-        this.frame.SetBackgroundColor(isActive ? "4A6EFF" : "E0E0E0")
-        this.frame.SetTextElementColor(isActive ? "FFFFFF" : "000000", "Title")
+        ; Change background and text color based on whether this is active
+        this.frame.SetBackgroundColor(this.IsActive() ? "4A6EFF" : "E0E0E0")
+        this.frame.SetTextElementColor(this.IsActive() ? "FFFFFF" : "000000", "Title")
+
+        ; Show / hide frame based on whether the parent workspace is active
+        parentWorkspace := this.GetParentWorkspace()
+        if(parentWorkspace)
+        {
+            if(parentWorkspace.IsActive())
+            {
+                SetWindowShown(this.frame.hwnd)
+            }
+            else
+            {
+                SetWindowHidden(this.frame.hwnd)
+            }
+        }
 
         this.frame.Update()
+    }
+
+    IsActive()
+    {
+        return this.parent.GetActiveChild() == this
     }
 
     AddChild(ByRef child)
@@ -100,7 +120,7 @@ class Container
         this.RemoveChildAt(this.GetChildIndex(child))
     }
 
-    RemoveChildAt(childIndex)
+    RemoveChildAt(childIndex, updateActive = true)
     {
         global treeRoot
         
@@ -111,27 +131,30 @@ class Container
             LogMessage("Removing child at index " . childIndex . ": " . childToRemove.ToString())
             this.children.RemoveAt(childIndex)
 
-            newActiveChild := ""
-            if(IndexOf(this.GetLastActiveChild(), this.children) != -1)
+            if(updateActive)
             {
-                newActiveChild := this.GetLastActiveChild()
-            }
-            else if(this.children[childIndex] != "")
-            {
-                newActiveChild := this.children[childIndex]
-            }
-            else if(this.children[childIndex - 1] != "")
-            {
-                newActiveChild := this.children[childIndex - 1]
-            }
+                newActiveChild := ""
+                if(IndexOf(this.GetLastActiveChild(), this.children) != -1)
+                {
+                    newActiveChild := this.GetLastActiveChild()
+                }
+                else if(this.children[childIndex] != "")
+                {
+                    newActiveChild := this.children[childIndex]
+                }
+                else if(this.children[childIndex - 1] != "")
+                {
+                    newActiveChild := this.children[childIndex - 1]
+                }
 
-            if(newActiveChild != "")
-            {
-                newActiveChild.SetActiveContainer(true)
-            }
-            else
-            {
-                this.SetActiveChild("")
+                if(newActiveChild != "")
+                {
+                    newActiveChild.SetActiveContainer(true)
+                }
+                else
+                {
+                    this.SetActiveChild("")
+                }
             }
 
             treeRoot.MarkGUIDirty()
@@ -209,6 +232,21 @@ class Container
         LogMessage("Setting active child to " . child.ToString())
         this.lastActiveChild := this.activeChild
         this.activeChild := child
+    }
+
+    SetActiveChildIndex(index)
+    {
+        if(index < 1)
+        {
+            index := this.children.Length()
+        }
+
+        if(index > this.children.Length())
+        {
+            index := 1
+        }
+
+        this.SetActiveChild(this.children[index])
     }
 
     SetActiveContainer(tryWarpMouse = true)

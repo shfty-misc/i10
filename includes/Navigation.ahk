@@ -234,15 +234,38 @@ MoveWindow(ByRef sourceWindow, ByRef targetSplit, ByRef targetWindow, delta)
             }
             else
             {
-                ; If moving into a different container tree, append to either the start or end
-                sourceParent.RemoveChild(sourceWindow)
-                if(delta < 0)
+                containerIndex := GetContainerRootIndex(sourceParent, targetSplit)
+                if(containerIndex != -1)
                 {
-                    targetSplit.AddChild(sourceWindow)
+                    ; If moving a window out of a parent and into a child
+                    sourceParent.RemoveChild(sourceWindow)
+                    if(delta < 0)
+                    {
+                        targetSplit.AddChild(sourceWindow)
+                    }
+                    else if(delta > 0)
+                    {
+                        targetSplit.AddChildAt(1, sourceWindow)
+                    }
+
+                    if(sourceParent.children.Length() == 1)
+                    {
+                        sourceParent.RemoveChild(targetSplit)
+                        sourceParent.parent.ReplaceChild(sourceParent, targetSplit)
+                    }
                 }
-                else if(delta > 0)
+                else
                 {
-                    targetSplit.AddChildAt(1, sourceWindow)
+                    ; If moving into a different container tree, append to either the start or end
+                    sourceParent.RemoveChild(sourceWindow)
+                    if(delta < 0)
+                    {
+                        targetSplit.AddChild(sourceWindow)
+                    }
+                    else if(delta > 0)
+                    {
+                        targetSplit.AddChildAt(1, sourceWindow)
+                    }
                 }
             }
         }

@@ -34,3 +34,6 @@ Critical
 ; Only allow one active thread per hotkey
 ; Multiple presses will be buffered by virtue of running in Critical mode
 #MaxThreadsPerHotkey 1
+
+; Prevent free-scrolling mice from triggering hotkey warning
+#MaxHotkeysPerInterval, 1000
