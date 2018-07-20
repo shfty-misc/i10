@@ -2,6 +2,7 @@
 class WindowContainer extends Container
 {
     hwnd := ""
+    hidden := false
 
     guiTreeTitle := 0
     guiTreeClass := 0
@@ -24,9 +25,19 @@ class WindowContainer extends Container
         if(!WinExist("ahk_id " . this.hwnd))
         {
             this.Destroy()
+            DetectHiddenWindows, Off
             return
         }
-        DetectHiddenWindows, Off
+        else if(!this.hidden && GetWindowIsHidden(this.hwnd))
+        {
+            this.Destroy(false)
+            DetectHiddenWindows, Off
+            return
+        }
+        else
+        {
+            DetectHiddenWindows, Off
+        }
 
         ; Destroy self and exclude associated window if it goes fullscreen
         if(this.GetParentMonitor().fullscreenWindow != "")
@@ -62,10 +73,13 @@ class WindowContainer extends Container
         base.Update()
     }
 
-    Destroy()
+    Destroy(showWindow = true)
     {
-        ; Unhide window
-        this.SetShown()
+        if(showWindow)
+        {
+            ; Unhide window
+            this.SetShown()
+        }
 
         ; If this is the maximized window on its parent workspace, null out the reference
         parentWorkspace := this.GetParentWorkspace()
@@ -153,19 +167,19 @@ class WindowContainer extends Container
 
     SetHidden()
     {
+        this.hidden := true
         SetWindowHidden(this.hwnd)
     }
 
     SetShown()
     {
+        this.hidden := false
         SetWindowShown(this.hwnd)
     }
 
     UpdateVisibility()
     {
         ; Show/Hide based on active workspace
-        isHidden := GetWindowIsHidden(this.hwnd)
-
         global Layout_Tabbed
         isTab := this.parent.layout == Layout_Tabbed
         isActiveTab := isTab && this.IsActive()
@@ -175,14 +189,14 @@ class WindowContainer extends Container
 
         if(parentWorkspace != parentMonitor.GetActiveChild())
         {
-            if(!isHidden)
+            if(!this.hidden)
             {
                 this.SetHidden()
             }
         }
         else
         {
-            if(isHidden)
+            if(this.hidden)
             {
                 if(parentWorkspace.maximizedWindow == "")
                 {
@@ -420,7 +434,7 @@ class WindowContainer extends Container
 
     WorkAreaContainsPoint(x,y)
     {
-        if(GetWindowIsHidden(this.hwnd))
+        if(this.hidden)
         {
             return false
         }

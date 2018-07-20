@@ -38,11 +38,8 @@ Features
 
 Fixes
 =====
--Fix window hiding conflicts (ex. steam, deluge, file explorer progress dialogs)
-    -Show/hide windows on workspace/fullscreen/tab switch instead of every frame
-        -Should allow containers to store their visibility state explicitly rather than implicitly
-    -Need to remove/disable window containers
-        -Is it better to destroy containers or exclude them from the tree during iteration?
+-Fix monitors sometimes being incorrectly reordered inside the root
+    -Triggered by oculus software startup/shutdown?
 
 -Check for existing window of same process and insert adjacent when adding new window containers to the tree
     -Should fix UE4 opening the editor on the currently active workspace rather than the one the splash appeared on

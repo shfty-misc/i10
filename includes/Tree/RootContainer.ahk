@@ -77,6 +77,11 @@ class RootContainer extends Container
         {
             hwnd := id%A_Index%
 
+            if(GetWindowTitle(hwnd) == "Friends")
+            {
+                LogMessage(GetWindowIsHidden(hwnd))
+            }
+
             ; Skip windows with no title or class
             windowTitle := GetWindowTitle(hwnd)
             windowClass := GetWindowClass(hwnd)

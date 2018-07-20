@@ -21,6 +21,7 @@ ExcludePopup("ahk_class Qt5QWindowPopupDropShadowSaveBits")            ; Qt drop
 ExcludePopup("ahk_class Qt5QWindowToolTipDropShadowSaveBits")          ; Qt tooltips
 ExcludePopup("ahk_class gdkWindowTemp")                                ; GDK Popups
 ExcludePopup("ahk_class SysShadow")                                    ; Shadows
+ExcludePopup("VaHoverButton ahk_class Static")                      ; Shadows
 
 FloatWindow("ahk_class OperationStatusWindow")                          ; File explorer progress dialogs
 FloatWindow("ahk_class #32770")                                         ; Popup dialogs
