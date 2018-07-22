@@ -9,9 +9,12 @@ Features
     -Correct text sizing and alignment using parent width
     -Taskbar icon popup
 
--Theme options for GUI colours, fonts
+-Check for existing window of same process and insert adjacent when adding new window containers to the tree
+    -Should fix UE4 opening the editor on the currently active workspace rather than the one the splash appeared on
 
 -GUI-driven include / exclude configuration
+
+-Theme options for GUI colours, fonts
 
 -Wrap focus around monitors when navigating
 
@@ -40,9 +43,7 @@ Fixes
 =====
 -Fix monitors sometimes being incorrectly reordered inside the root
     -Triggered by oculus software startup/shutdown?
-
--Check for existing window of same process and insert adjacent when adding new window containers to the tree
-    -Should fix UE4 opening the editor on the currently active workspace rather than the one the splash appeared on
+    -Need better change detection, check monitor names instead of count?
 
 -Fix broken behaviour when moving current fullscreen window to a different workspace
 
