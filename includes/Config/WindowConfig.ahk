@@ -1,5 +1,5 @@
 ﻿windowConfig := {}
-LoadConfig(windowConfig, "Windows.json")
+LoadConfig(windowConfig, "config/Windows.json")
 
 ; Window Filtering Functions
 QueryIncludesWindow(winTitle, hwnd)

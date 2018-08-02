@@ -13,10 +13,10 @@ defaultOptions["DebugMode"] := false
 
 options := {}
 
-if(!LoadConfig(options, "Options.json"))
+if(!LoadConfig(options, "config/Options.json"))
 {
     options := defaultOptions
-    SaveConfig(defaultOptions, "Options.json")
+    SaveConfig(defaultOptions, "config/Options.json")
 }
 
 GetOption(key)

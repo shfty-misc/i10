@@ -46,6 +46,9 @@ Features
 Fixes
 =====
 -Fix taskbar becoming managed under some circumstances
+    -WIP, rewrote window filtering
+    -If it still doesn't work, it means windows are losing their title or class temporarily
+        -Fix by checking each window container for exclusion and destroying if needed?
 
 -Fix monitors sometimes being incorrectly reordered inside the root
     -Triggered by oculus software startup/shutdown?
