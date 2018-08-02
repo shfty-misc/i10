@@ -10,11 +10,10 @@ class MonitorFrame extends TextFrame
 
     PopulateText()
     {
-        base.PopulateText()
-        
-        this.AddTextElement(this.gui, "Network")
-        this.AddTextElement(this.gui, "Volume")
-        this.AddTextElement(this.gui, "Time")
+        this.AddTextElement(this.gui, "Title", "w100")
+        this.AddTextElement(this.gui, "Network", "x+10 y7 w100")
+        this.AddTextElement(this.gui, "Volume", "x+10 y7 w100")
+        this.AddTextElement(this.gui, "Time", "x+10 y7 w100")
     }
 
     Update()

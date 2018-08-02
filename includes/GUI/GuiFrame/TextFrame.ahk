@@ -11,13 +11,13 @@ class TextFrame extends GuiFrame
 
     PopulateText()
     {
-        this.AddTextElement(this.gui, "Title")
+        this.AddTextElement(this.gui, "Title", "w1000")
     }
 
-    AddTextElement(gui, name)
+    AddTextElement(gui, name, options = "")
     {
         global
-        Gui, % gui . ":Add", Text, % "v" . gui . name . " x+10 y7 w100"
+        Gui, % gui . ":Add", Text, % "v" . gui . name . " " . options
     }
 
     SetTextElement(newText, elementName)

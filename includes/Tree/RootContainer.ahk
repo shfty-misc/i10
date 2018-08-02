@@ -77,11 +77,6 @@ class RootContainer extends Container
         {
             hwnd := id%A_Index%
 
-            if(GetWindowTitle(hwnd) == "Friends")
-            {
-                LogMessage(GetWindowIsHidden(hwnd))
-            }
-
             ; Skip windows with no title or class
             windowTitle := GetWindowTitle(hwnd)
             windowClass := GetWindowClass(hwnd)
@@ -119,6 +114,16 @@ class RootContainer extends Container
                     newWindow := new WindowContainer("", hwnd)
                     LogMessage("Creating window container for " . hwnd)
                     LogMessage("Title: " . windowTitle . ", Class: " . windowClass)
+
+                    if(GetWindowClass(hwnd) == "Shell_TrayWnd")
+                    {
+                        MsgBox, Error: Creating window container for Shell_TrayWnd
+                    }
+
+                    if(GetWindowClass(hwnd) == "Windows.UI.Core.CoreWindow")
+                    {
+                        MsgBox, Error: Creating window container for Windows.UI.Core.CoreWindow
+                    }
 
                     if(ShouldFloatWindow(hwnd))
                     {

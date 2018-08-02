@@ -112,7 +112,19 @@ class WindowContainer extends Container
         windowTitle := GetWindowTitle(this.hwnd)
         if(windowTitle != this.frame.titleText)
         {
-            this.frame.SetTextElement(windowTitle, "Title")
+            titleText := windowTitle
+
+            if(GetWindowIsPopup(this.hwnd))
+            {
+                titleText .= " (Popup)"
+            }
+
+            if(GetWindowIsChild(this.hwnd))
+            {
+                titleText .= " (Child)"
+            }
+
+            this.frame.SetTextElement(titleText, "Title")
         }
     }
 

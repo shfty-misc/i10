@@ -1,0 +1,63 @@
+{
+	"ExcludedWindows": [
+		"^$",
+		".* ahk_class Shell_TrayWnd",
+		".* ahk_class Shell_SecondaryTrayWnd",
+		".* ahk_class Windows.UI.Core.CoreWindow",
+
+		"Wox",
+		"NVIDIA GeForce Overlay",
+		"^$ ahk_class UnrealWindow",
+		"ahk_class TApplication",
+		"^((?!Deluge).)*$ ahk_class gdkWindowToplevel",
+
+		"ahk_class _XRAY_1.5",
+		"MainWindow"
+	],
+
+	"ExcludedPopups": [
+		"^$",
+		"ahk_class Windows.UI.Core.CoreWindow",
+		"ahk_class Xaml_WindowedPopupClass",
+		"ahk_class Qt5QWindowToolTipSaveBits",
+		"Program Manager ahk_class Progman",
+		"ahk_class TaskListOverlayWnd",
+		"ahk_class TaskListThumbnailWnd",
+		"ahk_class MultitaskingViewFrame",
+		"ahk_class SysDragImage",
+		"ahk_class AutoHotkeyGUI",
+		"ahk_class tooltips_class32",
+		"ahk_class Qt5QWindowPopupDropShadowSaveBits",
+		"ahk_class Qt5QWindowToolTipDropShadowSaveBits",
+		"ahk_class gdkWindowTemp",
+		"ahk_class SysShadow",
+		"VaHoverButton ahk_class Static",
+
+		"ahk_class MozillaWindowClass",
+		"^$ ahk_class UnrealWindow",
+		"Perforce Password Required ahk_class Qt5QWindowIcon",
+		"Get Revision Progress ahk_class Qt5QWindowIcon",
+		"^Helix P4V ahk_class Qt5QWindowIcon"
+	],
+
+	"ExcludedChildren": [
+		"^$"
+	],
+
+	"FloatedWindows": [
+		"ahk_class OperationStatusWindow",
+		"ahk_class #32770",
+
+		"SteamVR Status ahk_class Qt5QWindowIcon",
+		"vrmonitor ahk_class Qt5QWindowToolSaveBits",
+		"RemotePC ahk_class HwndWrapper.*",
+
+		"ahk_class NIOH",
+
+		"NCC Touchscreen"
+	],
+
+	"SleepWindows": {
+		"Skype ahk_class ApplicationFrameWindow": 500
+	}
+}

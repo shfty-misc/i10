@@ -1,0 +1,12 @@
+{
+	"FocusFollowsMouse": 1,
+	"MouseWarping": "Window",
+
+	"WorkspaceLayout": "None",
+	"DefaultOrientation": "None",
+
+	"DefaultOuterGap": 0,
+	"DefaultInnerGap": 15,
+
+	"DebugMode": 1
+}

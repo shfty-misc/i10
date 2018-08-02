@@ -177,6 +177,12 @@ MoveActiveWindowToWorkspace(workspaceIndex)
         activeMonitor := activeContainer.GetParentMonitor()
         if(activeMonitor != "")
         {
+            activeWorkspace := activeContainer.GetParentWorkspace()
+            if(activeWorkspace.maximizedWindow == activeContainer)
+            {
+                activeWorkspace.maximizedWindow := ""
+            }
+
             LogMessage("Removing " . activeContainer.hwnd . " from parent split " . activeContainer.parent.ToString())
             activeContainer.parent.RemoveChild(activeContainer)
 

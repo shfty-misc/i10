@@ -1,6 +1,9 @@
 Features
 ========
 -Custom workspace names
+    -Need to store per-monitor lists tying names to workspace indices
+    -Use AHK's monitor ID/name (\\DISPLAYn) to key per-monitor
+        -How to store this in options?
 
 -Activate containers when clicking their frame
     -Needs a proper click handling system for frame elements
@@ -8,9 +11,6 @@ Features
 -Proper monitor frame functionality
     -Correct text sizing and alignment using parent width
     -Taskbar icon popup
-
--Check for existing window of same process and insert adjacent when adding new window containers to the tree
-    -Should fix UE4 opening the editor on the currently active workspace rather than the one the splash appeared on
 
 -GUI-driven include / exclude configuration
 
@@ -29,6 +29,10 @@ Features
 
 -Layout save/restore
 
+-Check for existing window of same process and insert adjacent when adding new window containers to the tree
+    -To fix UE4 opening the editor on the currently active workspace rather than the one the splash appeared on
+    -The splash closes before the editor is opened, so this will need a window history setup. Complex.
+
 -Floating window move/resize hotkeys
 
 -Vim-like marks
@@ -41,14 +45,15 @@ Features
 
 Fixes
 =====
+-Fix taskbar becoming managed under some circumstances
+
 -Fix monitors sometimes being incorrectly reordered inside the root
     -Triggered by oculus software startup/shutdown?
     -Need better change detection, check monitor names instead of count?
 
--Fix broken behaviour when moving current fullscreen window to a different workspace
-
 -Check window for min/max size in WindowContainer, center in work area rather than aligning top-left
     -Should allow for nicer management of fixed-size windows like the UE4 splash
+    -Won't work with pre-sized windows that don't enforce size, add as window config option?
         
 -Revisit undocking / implicit split behaviour (ex. 2V containing a 2H and 1W, try to move child of 2H upward, doesn't turn 2V into a 3V)
 

@@ -15,9 +15,9 @@ LWin::vk07
 ; System commands
 #+e::exitapp
 #+r::reload
-#+p::pause
+#+p::TogglePause()
 
-pause::pause
+pause::TogglePause()
 
 ; Split Axis
 #h::SplitActiveContainer(Orientation_H)
