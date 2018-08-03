@@ -114,7 +114,7 @@
 		{
 			"hotkeys": [
 				"#k",
-				"#Up"
+				"#Down"
 			],
 			"function": "Navigate",
 			"params": [
@@ -125,7 +125,7 @@
 		{
 			"hotkeys": [
 				"#l",
-				"#Down"
+				"#Up"
 			],
 			"function": "Navigate",
 			"params": [
@@ -171,7 +171,7 @@
 		{
 			"hotkeys": [
 				"#+k",
-				"#+Up"
+				"#+Down"
 			],
 			"function": "MoveActiveWindow",
 			"params": [
@@ -182,7 +182,7 @@
 		{
 			"hotkeys": [
 				"#+l",
-				"#+Down"
+				"#+Up"
 			],
 			"function": "MoveActiveWindow",
 			"params": [
