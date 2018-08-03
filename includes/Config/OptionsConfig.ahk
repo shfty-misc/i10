@@ -11,22 +11,22 @@ defaultOptions["DefaultInnerGap"] := 15
 
 defaultOptions["DebugMode"] := false
 
-options := {}
+optionsConfig := {}
 
-if(!LoadConfig(options, "config/Options.json"))
+if(!LoadConfig(optionsConfig, "config/Options.json"))
 {
-    options := defaultOptions
+    optionsConfig := defaultOptions
     SaveConfig(defaultOptions, "config/Options.json")
 }
 
 GetOption(key)
 {
-    global options
-    return options[key]
+    global optionsConfig
+    return optionsConfig[key]
 }
 
 SetOption(key, value)
 {
-    global options
-    options[key] := value
+    global optionsConfig
+    optionsConfig[key] := value
 }

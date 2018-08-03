@@ -62,8 +62,8 @@ GUI_Init()
     global guiOptions
     Gui, % mainGui . ":Add", ListView, w590 h160 vguiOptions +NoSort +NoSortHdr, Key`nValue
 
-    global options
-    for key, value in options
+    global optionsConfig
+    for key, value in optionsConfig
     {
         LV_Add("", key, value)
     }

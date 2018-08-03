@@ -1,6 +1,13 @@
+isPaused := false
+
 ; Tree structure
 treeRoot := new RootContainer("")
-isPaused := false
+
+i10_Init()
+{
+    global treeRoot
+    treeRoot.Init()
+}
 
 ; Main Loop
 i10_Update()
@@ -13,8 +20,23 @@ i10_Update()
     }
 }
 
-TogglePause()
+i10_Run(target)
+{
+    Run, % target
+}
+
+i10_Pause()
 {
     global isPaused
     isPaused := !isPaused
+}
+
+i10_Restart()
+{
+    Reload
+}
+
+i10_Exit()
+{
+    ExitApp
 }

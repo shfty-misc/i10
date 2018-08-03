@@ -6,27 +6,20 @@ class RootContainer extends Container
     prevMousePosition := { x: 0, y: 0 }
     prevHoveredContainer := ""
 
-    __New(ByRef parent)
+    Init()
     {
         global Orientation_H
         global Layout_Split
+        newSplit := new SplitContainer(this, Orientation_H, Layout_Split)
         
-        base.__New(parent)
+        this.AddChild(newSplit)
+        this.SetActiveChild(newSplit)
+        
+        base.Init()
     }
 
     Update()
     {
-        global treeRoot
-        global Orientation_H
-        global Layout_Split
-
-        if(this.children.Length() == 0)
-        {
-            newSplit := new SplitContainer(this, Orientation_H, Layout_Split)
-            this.AddChild(newSplit)
-            this.SetActiveChild(newSplit)
-        }
-
         ; Enumerate monitors and create corresponding MonitorContainers
         SysGet, monCount, MonitorCount
         rootSplit := this.GetActiveChild()

@@ -8,5 +8,19 @@
 	"DefaultOuterGap": 0,
 	"DefaultInnerGap": 15,
 
+	"WorkspaceNames": {
+		"\\\\.\\DISPLAY1": {
+			"1": "Video"
+		},
+		"\\\\.\\DISPLAY2": {
+			"1": "Main",
+			"2": "Dev",
+			"9": "Junk"
+		},
+		"\\\\.\\DISPLAY3": {
+			"1": "Chat"
+		}
+	},
+
 	"DebugMode": 1
 }

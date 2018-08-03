@@ -48,7 +48,20 @@ class MonitorContainer extends Container
             {
                 workspaceText .= element == this.GetActiveChild() ? "[" : " "
             }
-            workspaceText .= element.workspaceIndex
+
+            monitorName := GetMonitorName(this.monitor)
+            workspaceNames := GetOption("WorkspaceNames")[monitorName]
+            workspaceName := workspaceNames[element.workspaceIndex]
+            
+            if(workspaceName)
+            {
+                workspaceText .= workspaceNames[element.workspaceIndex]
+            }
+            else
+            {
+                workspaceText .= element.workspaceIndex
+            }
+
             if(element == this.GetActiveChild())
             {
                 workspaceText .= element == this.GetActiveChild() ? "]" : " "

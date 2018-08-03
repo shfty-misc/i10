@@ -14,6 +14,14 @@ class Container
         this.parent := parent
     }
 
+    Init()
+    {
+        for index, element in this.children
+        {
+            element.Init()
+        }
+    }
+
     Update()
     {
         if(!this.frame)

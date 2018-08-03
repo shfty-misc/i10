@@ -9,15 +9,15 @@
 #include includes/Tree.ahk
 #include includes/Navigation.ahk
 #include includes/Util.ahk
-#include includes/GUI/GUI.ahk
 #include includes/Config.ahk
 #include includes/Debug/Logging.ahk
+#include includes/GUI/GUI.ahk
 #include includes/Main.ahk
 
-; Autorun
 GUI_Init()
+i10_Init()
 
 SetTimer i10_Update, 0
 SetTimer GUI_Update, 50
 
-#include Hotkeys.ahk
+#include includes/Hotkeys.ahk

@@ -1,0 +1,406 @@
+{
+	"Hotkeys": [
+		{
+			"hotkeys": [
+				"#+e"
+			],
+			"function": "i10_Exit"
+		},
+		{
+			"hotkeys": [
+				"#+r"
+			],
+			"function": "i10_Restart"
+		},
+
+		{
+			"hotkeys": [
+				"pause",
+				"#+p"
+			],
+			"function": "i10_Pause"
+		},
+
+		{
+			"hotkeys": [
+				"#h"
+			],
+			"function": "SplitActiveContainer",
+			"params": [
+				"Horizontal"
+			]
+		},
+		{
+			"hotkeys": [
+				"#v"
+			],
+			"function": "SplitActiveContainer",
+			"params": [
+				"Vertical"
+			] 
+		},
+		{
+			"hotkeys": [
+				"#+h"
+			],
+			"function": "SplitActiveContainerWithPlaceholder",
+			"params": [
+				"Horizontal"
+			]
+		},
+		{
+			"hotkeys": [
+				"#+v"
+			],
+			"function": "SplitActiveContainerWithPlaceholder",
+			"params": [
+				"Vertical"
+			]
+		},
+
+		{
+			"hotkeys": [
+				"#e"
+			],
+			"function": "ToggleSplitLayout"
+		},
+		{
+			"hotkeys": [
+				"#w"
+			],
+			"function": "SetTabbedLayout"
+		},
+		{
+			"hotkeys": [
+				"#s"
+			],
+			"function": "SetStackingLayout"
+		},
+		
+		{
+			"hotkeys": [
+				"#Enter"
+			],
+			"function": "i10_Run",
+			"params": [
+				"C:\\Shortcuts\\ConEmu.lnk"
+			]
+		},
+		
+		{
+			"hotkeys": [
+				"#f"	
+			],
+			"function": "ToggleActiveWindowFullscreen"
+		},
+		{
+			"hotkeys": [
+				"#c"
+			],
+			"function": "CloseActiveWindow"
+		},
+		
+		{
+			"hotkeys": [
+				"#j",
+				"#Left"
+			],
+			"function": "Navigate",
+			"params": [
+				-1,
+				"Horizontal"
+			]
+		},
+		{
+			"hotkeys": [
+				"#k",
+				"#Up"
+			],
+			"function": "Navigate",
+			"params": [
+				1,
+				"Vertical"
+			]
+		},
+		{
+			"hotkeys": [
+				"#l",
+				"#Down"
+			],
+			"function": "Navigate",
+			"params": [
+				-1,
+				"Vertical"
+			]
+		},
+		{
+			"hotkeys": [
+				"#;",
+				"#Right"
+			],
+			"function": "Navigate",
+			"params": [
+				1,
+				"Horizontal"
+			]
+		},
+		{
+			"hotkeys": [
+				"#a"
+			],
+			"function": "FocusParentContainer"
+		},
+		{
+			"hotkeys": [
+				"#d"
+			],
+			"function": "FocusChildContainer"
+		},
+		
+		{
+			"hotkeys": [
+				"#+j",
+				"#+Left"
+			],
+			"function": "MoveActiveWindow",
+			"params": [
+				-1,
+				"Horizontal"
+			]
+		},
+		{
+			"hotkeys": [
+				"#+k",
+				"#+Up"
+			],
+			"function": "MoveActiveWindow",
+			"params": [
+				1,
+				"Vertical"
+			]
+		},
+		{
+			"hotkeys": [
+				"#+l",
+				"#+Down"
+			],
+			"function": "MoveActiveWindow",
+			"params": [
+				-1,
+				"Vertical"
+			]
+		},
+		{
+			"hotkeys": [
+				"#+;",
+				"#+Right"
+			],
+			"function": "MoveActiveWindow",
+			"params": [
+				1,
+				"Horizontal"
+			]
+		},
+
+		{
+			"hotkeys": [
+				"#1"
+			],
+			"function": "SetActiveWorkspace",
+			"params": [
+				1
+			]
+		},
+		{
+			"hotkeys": [
+				"#2"
+			],
+			"function": "SetActiveWorkspace",
+			"params": [
+				2
+			]
+		},
+		{
+			"hotkeys": [
+				"#3"
+			],
+			"function": "SetActiveWorkspace",
+			"params": [
+				3
+			]
+		},
+		{
+			"hotkeys": [
+				"#4"
+			],
+			"function": "SetActiveWorkspace",
+			"params": [
+				4
+			]
+		},
+		{
+			"hotkeys": [
+				"#5"
+			],
+			"function": "SetActiveWorkspace",
+			"params": [
+				5
+			]
+		},
+		{
+			"hotkeys": [
+				"#6"
+			],
+			"function": "SetActiveWorkspace",
+			"params": [
+				6
+			]
+		},
+		{
+			"hotkeys": [
+				"#7"
+			],
+			"function": "SetActiveWorkspace",
+			"params": [
+				7
+			]
+		},
+		{
+			"hotkeys": [
+				"#8"
+			],
+			"function": "SetActiveWorkspace",
+			"params": [
+				8
+			]
+		},
+		{
+			"hotkeys": [
+				"#9"
+			],
+			"function": "SetActiveWorkspace",
+			"params": [
+				9
+			]
+		},
+
+		{
+			"hotkeys": [
+				"#+1"
+			],
+			"function": "MoveActiveWindowToWorkspace",
+			"params": [
+				1
+			]
+		},
+		{
+			"hotkeys": [
+				"#+2"
+			],
+			"function": "MoveActiveWindowToWorkspace",
+			"params": [
+				2
+			]
+		},
+		{
+			"hotkeys": [
+				"#+3"
+			],
+			"function": "MoveActiveWindowToWorkspace",
+			"params": [
+				3
+			]
+		},
+		{
+			"hotkeys": [
+				"#+4"
+			],
+			"function": "MoveActiveWindowToWorkspace",
+			"params": [
+				4
+			]
+		},
+		{
+			"hotkeys": [
+				"#+5"
+			],
+			"function": "MoveActiveWindowToWorkspace",
+			"params": [
+				5
+			]
+		},
+		{
+			"hotkeys": [
+				"#+6"
+			],
+			"function": "MoveActiveWindowToWorkspace",
+			"params": [
+				6
+			]
+		},
+		{
+			"hotkeys": [
+				"#+7"
+			],
+			"function": "MoveActiveWindowToWorkspace",
+			"params": [
+				7
+			]
+		},
+		{
+			"hotkeys": [
+				"#+8"
+			],
+			"function": "MoveActiveWindowToWorkspace",
+			"params": [
+				8
+			]
+		},
+		{
+			"hotkeys": [
+				"#+9"
+			],
+			"function": "MoveActiveWindowToWorkspace",
+			"params": [
+				9
+			]
+		},
+
+		{
+			"hotkeys": [
+				"#n"
+			],
+			"function": "ModifyActiveMonitorInnerGap",
+			"params": [
+				5
+			]
+		},
+		{
+			"hotkeys": [
+				"#+n"
+			],
+			"function": "ModifyActiveMonitorInnerGap",
+			"params": [
+				-5
+			]
+		},
+		{
+			"hotkeys": [
+				"#m"
+			],
+			"function": "ModifyActiveMonitorOuterGap",
+			"params": [
+				5
+			]
+		},
+		{
+			"hotkeys": [
+				"#+m"
+			],
+			"function": "ModifyActiveMonitorOuterGap",
+			"params": [
+				-5
+			]
+		}
+	]
+}

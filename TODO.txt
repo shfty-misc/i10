@@ -1,10 +1,5 @@
 Features
 ========
--Custom workspace names
-    -Need to store per-monitor lists tying names to workspace indices
-    -Use AHK's monitor ID/name (\\DISPLAYn) to key per-monitor
-        -How to store this in options?
-
 -Activate containers when clicking their frame
     -Needs a proper click handling system for frame elements
 
@@ -50,9 +45,9 @@ Fixes
     -If it still doesn't work, it means windows are losing their title or class temporarily
         -Fix by checking each window container for exclusion and destroying if needed?
 
--Fix monitors sometimes being incorrectly reordered inside the root
-    -Triggered by oculus software startup/shutdown?
-    -Need better change detection, check monitor names instead of count?
+-More robust monitor config change detection
+    -Check monitor index against name
+    -Preserve hierarchy by moving existing monitors, add / remove others as needed
 
 -Check window for min/max size in WindowContainer, center in work area rather than aligning top-left
     -Should allow for nicer management of fixed-size windows like the UE4 splash
