@@ -49,15 +49,15 @@ Fixes
     -Check monitor index against name
     -Preserve hierarchy by moving existing monitors, add / remove others as needed
 
+-More robust monitor-to-monitor navigation
+    -Need a solution that doesn't assume monitors are laid out ie=mcn a linear fashion
+    -Remove root container split, offload navigation logic to root
+
 -Check window for min/max size in WindowContainer, center in work area rather than aligning top-left
     -Should allow for nicer management of fixed-size windows like the UE4 splash
     -Won't work with pre-sized windows that don't enforce size, add as window config option?
         
 -Revisit undocking / implicit split behaviour (ex. 2V containing a 2H and 1W, try to move child of 2H upward, doesn't turn 2V into a 3V)
-
--More robust monitor-to-monitor navigation
-    -Need a solution that doesn't assume monitors are laid out in a linear fashion
-    -Remove root container split, offload navigation logic to root
 
 -Fix floating windows not responding to moving via keyboard
 
