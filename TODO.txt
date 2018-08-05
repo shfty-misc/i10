@@ -38,6 +38,11 @@ Features
 
 Fixes
 =====
+-Unify container / layout implementation
+    -Workspaces can be achieved with a horizontal tab container
+        -Set workspace hotkeys to find the inner/outermost (depending on shift modifier) tabbed layout parent and switch its active child
+    -Single container class? Maybe not, but layout (workspace, split) can be simplified to a single implementation
+
 -Proper sorting for workspaces within monitor
 
 -Fix window frame top border being 0 for vertical split children with index > 1
