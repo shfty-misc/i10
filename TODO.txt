@@ -15,8 +15,6 @@ Features
 
 -Built-in dmenu-like functionality
 
--Plaintext configuration file support
-
 -Github-driven auto update using URlDownloadToFile and https://github.com/:owner/:repo/zipball/:branch
 
 -Placeholder GUI windows
@@ -40,6 +38,15 @@ Features
 
 Fixes
 =====
+-Proper sorting for workspaces within monitor
+
+-Fix window frame top border being 0 for vertical split children with index > 1
+
+-Fix custom workspace names becoming associated with different monitors
+    -How to fix if the OS' internal monitor names change without warning?
+    -Tie to monitor position relative to primary?
+        -Could tie in to a monitor navigation refactor, grid system?
+
 -Fix taskbar becoming managed under some circumstances
     -WIP, rewrote window filtering
     -If it still doesn't work, it means windows are losing their title or class temporarily
@@ -64,5 +71,9 @@ Fixes
 -Fix certain windows causing windows key to fall through and activate the start menu
     -Reproducible with RemotePC client window
     -Seems to be down to the way RemotePC hooks the windows key
+
+Other
+=====
+-Create logo with semitransparent background for exe icon
 
 -Fix README.md formatting

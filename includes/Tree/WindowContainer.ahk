@@ -98,10 +98,9 @@ class WindowContainer extends Container
     {
         if(!this.IsFloating())
         {
-            this.frame := new TextFrame()
-
-            ; Move frame below window
-            WinSet, Bottom,, % "ahk_id " . this.frame.hwnd
+            this.frame := new GDIPFrame()
+            this.frame.border.top := 0
+            this.frame.border.bottom := 0
         }
     }
 
@@ -124,7 +123,7 @@ class WindowContainer extends Container
                 titleText .= " (Child)"
             }
 
-            this.frame.SetTextElement(titleText, "Title")
+            this.frame.text := titleText
         }
     }
 

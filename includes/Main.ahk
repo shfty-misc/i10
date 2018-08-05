@@ -1,6 +1,4 @@
 isPaused := false
-
-; Tree structure
 treeRoot := new RootContainer("")
 
 i10_Init()
@@ -40,3 +38,11 @@ i10_Exit()
 {
     ExitApp
 }
+
+i10_Shutdown()
+{
+    global treeRoot
+    treeRoot.Destroy()
+}
+
+OnExit("i10_Shutdown")

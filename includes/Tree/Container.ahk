@@ -61,7 +61,7 @@ class Container
 
     CreateFrame()
     {
-        this.frame := new TextFrame()
+        this.frame := new GDIPFrame()
     }
 
     GetFrameArea()
@@ -79,8 +79,9 @@ class Container
         this.frame.SetPosition(frameArea.left, frameArea.top, frameArea.right - frameArea.left, frameArea.bottom - frameArea.top)
 
         ; Change background and text color based on whether this is active
-        this.frame.SetBackgroundColor(this.IsActive() ? "4A6EFF" : "E0E0E0")
-        this.frame.SetTextElementColor(this.IsActive() ? "FFFFFF" : "000000", "Title")
+        this.frame.SetBorderColor(this.IsActive() ? 0xFF2C4FDB : 0xFF909090)
+        this.frame.SetBackgroundColor(this.IsActive() ? 0xFF4A6EFF : 0xFFE0E0E0)
+        this.frame.SetTextColor(this.IsActive() ? "FFFFFFFF" : "FF000000")
 
         ; Show / hide frame based on whether the parent workspace is active
         parentWorkspace := this.GetParentWorkspace()

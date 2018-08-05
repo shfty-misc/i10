@@ -2,7 +2,7 @@ class GuiFrame
 {
     gui := 0
     hwnd := 0
-    height := 24
+    height := 22
     border := 2
     backgroundColor := ""
 
@@ -49,6 +49,7 @@ class GuiFrame
 
     SetPosition(x, y, w, h)
     {
+        this.bounds := { x: x, y: y, w: w, h: h }
         SetWindowPosition(this.hwnd, x, y, w, h)
     }
 }

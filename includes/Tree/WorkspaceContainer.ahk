@@ -55,9 +55,14 @@ class WorkspaceContainer extends Container
 
         base.Update()
 
-        if(this.parent.GetActiveChild() != this || this.maximizedWindow != "")
+        if(this.maximizedWindow != "")
         {
             SetWindowHidden(this.frame.hwnd)
+            SetWindowHidden(this.GetRootSplitContainer().frame.hwnd)
+        }
+        else if(this.parent.GetActiveChild() != this)
+        {
+            SetWindowShown(this.frame.hwnd)
             SetWindowHidden(this.GetRootSplitContainer().frame.hwnd)
         }
         else
@@ -67,10 +72,30 @@ class WorkspaceContainer extends Container
         }
     }
 
+    CreateFrame()
+    {
+        base.CreateFrame()
+        this.frame.height += 2
+    }
+
     UpdateFrame()
     {
         base.UpdateFrame()
-        this.frame.SetTextElement(this.ToString(), "Title")
+        this.frame.text := this.ToString()
+    }
+
+    GetFrameArea()
+    {
+        frameArea := this.GetWorkArea()
+        frameArea.bottom := frameArea.top + this.frame.height
+
+        tabWidth := frameArea.right - frameArea.left
+        frameWidth := Floor(tabWidth / this.parent.children.Length())
+
+        frameArea.left := frameArea.left + frameWidth * (this.GetIndex() - 1)
+        frameArea.right := frameArea.left + frameWidth
+
+        return frameArea
     }
 
     GetRootSplitContainer()
@@ -105,7 +130,20 @@ class WorkspaceContainer extends Container
 
     ToString()
     {
-        NodeString := "Workspace " . this.workspaceIndex
+        NodeString := ""
+
+        parentMonitorName := GetMonitorName(this.GetParentMonitor())
+        workspaceNames := GetOption("WorkspaceNames")[parentMonitorName]
+        workspaceName := workspaceNames[this.workspaceIndex]
+        
+        if(workspaceName)
+        {
+            NodeString .= workspaceNames[this.workspaceIndex]
+        }
+        else
+        {
+            NodeString .= this.workspaceIndex
+        }
 
         return NodeString
     }
@@ -149,7 +187,7 @@ GetWorkspaceContainer(ByRef monitorContainer, workspaceIndex)
         {
             LogMessage("Workspace not found, creating...")
             newWorkspace := new WorkspaceContainer(monitorContainer, workspaceIndex)
-            monitorContainer.AddChildAt(workspaceIndex, newWorkspace)
+            monitorContainer.AddChild(newWorkspace)
             return newWorkspace
         }
 

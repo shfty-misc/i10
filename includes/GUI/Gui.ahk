@@ -2,6 +2,7 @@
 #include includes/GUI/GuiFrame/GuiFrame.ahk
 #include includes/GUI/GuiFrame/TextFrame.ahk
 #include includes/GUI/GuiFrame/MonitorFrame.ahk
+#include includes/GUI/GuiFrame/GDIPFrame.ahk
 
 ; GUI
 mainGui := ""
@@ -17,7 +18,7 @@ guiLog := ""
 GUI_Init()
 {
     ; Set Icon
-    Menu, Tray, Icon, graphics/logo.ico
+    Menu, Tray, Icon, graphics/logo.png
     Menu, Tray, Tip, i10
     if(!GetOption("DebugMode"))
     {

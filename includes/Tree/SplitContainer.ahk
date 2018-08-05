@@ -56,6 +56,7 @@ class SplitContainer extends Container
         if(this.parent.__Class != "RootContainer")
         {
             base.CreateFrame()
+            this.frame.border.top := 0
         }
     }
 
@@ -64,7 +65,7 @@ class SplitContainer extends Container
         if(this.parent.__Class != "RootContainer")
         {
             base.UpdateFrame()
-            this.frame.SetTextElement(this.ToString(), "Title")
+            this.frame.text := this.ToString()
         }
     }
 

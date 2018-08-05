@@ -29,6 +29,9 @@ class MonitorContainer extends Container
     CreateFrame()
     {
         this.frame := new MonitorFrame()
+        this.frame.border.left := 0
+        this.frame.border.top := 0
+        this.frame.border.right := 0
     }
 
     RemoveChildAt(childIndex, updateActive = false)
@@ -41,36 +44,16 @@ class MonitorContainer extends Container
     {
         base.UpdateFrame()
 
-        workspaceText := ""
-        for index, element in this.children
-        {
-            if(element == this.GetActiveChild())
-            {
-                workspaceText .= element == this.GetActiveChild() ? "[" : " "
-            }
+        this.frame.text := ""
+        this.frame.text .= GetNetworkIsConnected() ? "Connected" : "No Connection"
+        this.frame.text .= "     "
 
-            monitorName := GetMonitorName(this.monitor)
-            workspaceNames := GetOption("WorkspaceNames")[monitorName]
-            workspaceName := workspaceNames[element.workspaceIndex]
-            
-            if(workspaceName)
-            {
-                workspaceText .= workspaceNames[element.workspaceIndex]
-            }
-            else
-            {
-                workspaceText .= element.workspaceIndex
-            }
+        this.frame.text .= Floor(GetSystemVolume()) . "%", "Volume"
+        this.frame.text .= "     "
 
-            if(element == this.GetActiveChild())
-            {
-                workspaceText .= element == this.GetActiveChild() ? "]" : " "
-            }
-
-            workspaceText .= " "
-        }
-
-        this.frame.SetTextElement(workspaceText, "Title")
+        FormatTime, formattedTime, A_Now, h:mm tt
+        this.frame.text .= formattedTime
+        this.frame.text .= "     "
     }
 
     GetDisplayArea()

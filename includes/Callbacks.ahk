@@ -61,14 +61,9 @@ AppBarMessage_Callback(wParam, lParam, msg, hwnd) {
 }
 
 ; Cleanup callbacks
-OnExit("Exit_Callback")
-Exit_Callback()
+OnExit("Callback_Shutdown")
+Callback_Shutdown()
 {
     global appBarData
     DllCall("Shell32.dll\SHAppBarMessage", UInt, (ABM_REMOVE := 0x1), UInt, &appBarData)
-
-    global treeRoot
-    treeRoot.Destroy()
-
-    ExitApp
 }

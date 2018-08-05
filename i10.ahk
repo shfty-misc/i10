@@ -11,9 +11,11 @@
 #include includes/Util.ahk
 #include includes/Config.ahk
 #include includes/Debug/Logging.ahk
+#include includes/GDI.ahk
 #include includes/GUI/GUI.ahk
 #include includes/Main.ahk
 
+GDI_Init()
 GUI_Init()
 i10_Init()
 
