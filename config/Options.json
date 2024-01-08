@@ -1,26 +1,9 @@
 {
+	"DebugMode": 1,
+	"DefaultInnerGap": 15,
+	"DefaultOrientation": "None",
+	"DefaultOuterGap": 0,
 	"FocusFollowsMouse": 1,
 	"MouseWarping": "Window",
-
-	"WorkspaceLayout": "None",
-	"DefaultOrientation": "None",
-
-	"DefaultOuterGap": 0,
-	"DefaultInnerGap": 15,
-
-	"WorkspaceNames": {
-		"\\\\.\\DISPLAY1": {
-			"1": "Video"
-		},
-		"\\\\.\\DISPLAY2": {
-			"1": "Main",
-			"2": "Dev",
-			"9": "Junk"
-		},
-		"\\\\.\\DISPLAY3": {
-			"1": "Chat"
-		}
-	},
-
-	"DebugMode": 1
+	"WorkspaceLayout": "None"
 }

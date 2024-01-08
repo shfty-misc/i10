@@ -1,3 +1,5 @@
+#include <JSON>
+
 isPaused := false
 treeRoot := new RootContainer("")
 
@@ -43,6 +45,12 @@ i10_Shutdown()
 {
     global treeRoot
     treeRoot.Destroy()
+}
+
+i10_SaveState()
+{
+    global treeRoot
+    JSON.Dump(treeRoot,, "`t")
 }
 
 OnExit("i10_Shutdown")

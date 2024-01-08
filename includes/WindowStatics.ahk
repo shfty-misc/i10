@@ -59,35 +59,6 @@ GetWindowAlwaysOnTop(hwnd)
     return winExStyle & 0x00000008
 }
 
-GetWindowGapOffset(hwnd)
-{
-    winPos := GetWindowPosition(hwnd)
-    winRight := winPos.x + winPos.w
-    winBottom := winPos.y + winPos.h
-
-    eb := GetWindowExtendedFrameBounds(hwnd)
-    return { left: eb.left - winPos.x, top: eb.top - winPos.y, right: winRight - eb.right, bottom: winBottom - eb.bottom }
-}
-
-GetWindowExtendedFrameBounds(hwnd)
-{
-    static extendedBounds
-    VarSetCapacity(extendedBounds,16,0)
-
-    ;-- Workaround for AutoHotkey Basic
-    ptrType:=(A_PtrSize==8) ? "Ptr":"UInt"
-
-    success := DllCall("dwmapi\DwmGetWindowAttribute",ptrType, hwnd,"UInt", 9,ptrType, &extendedBounds,"UInt", 16)
-
-    ;-- Populate the output variables
-    left := NumGet(extendedBounds, 0, "Int")
-    top  := NumGet(extendedBounds, 4, "Int")
-    right := NumGet(extendedBounds, 8, "Int")
-    bottom := NumGet(extendedBounds, 12, "Int")
-    
-    return {left: left, top: top, right: right, bottom: bottom}
-}
-
 GetWindowIsFullscreen(hwnd)
 {
     WinGet, style, Style, ahk_id %hwnd%

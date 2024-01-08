@@ -1,3 +1,5 @@
+#include <GuiFactory>
+
 class GuiFrame
 {
     gui := 0
@@ -10,8 +12,7 @@ class GuiFrame
 
     __New()
     {
-        global guiFactory
-        this.gui := guiFactory.CreateGUI("-Caption +ToolWindow", this.__Class)
+        this.gui := GuiFactory.CreateGUI("-Caption +ToolWindow", this.__Class)
             
         Gui, % this.gui . ":+HwndframeHwnd"
         this.hwnd := frameHwnd

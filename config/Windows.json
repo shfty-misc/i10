@@ -12,6 +12,7 @@
 		"^((?!Deluge).)*$ ahk_class gdkWindowToplevel",
 
 		"ahk_class _XRAY_1.5",
+		"ahk_class MT FRAMEWORK",
 		"MainWindow"
 	],
 
@@ -37,7 +38,9 @@
 		"^$ ahk_class UnrealWindow",
 		"Perforce Password Required ahk_class Qt5QWindowIcon",
 		"Get Revision Progress ahk_class Qt5QWindowIcon",
-		"^Helix P4V ahk_class Qt5QWindowIcon"
+		"^Helix P4V ahk_class Qt5QWindowIcon",
+		"Backup and Sync ahk_class wxWindowNR",
+		"hover ahk_class SDL_app"
 	],
 
 	"ExcludedChildren": [

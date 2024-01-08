@@ -401,6 +401,13 @@
 			"params": [
 				-5
 			]
+		},
+
+		{
+			"hotkeys": [
+				"#z"
+			],
+			"function": "i10_SaveState"
 		}
 	]
 }

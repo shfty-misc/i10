@@ -1,4 +1,5 @@
-﻿#include includes/GUI/GuiFactory.ahk
+﻿#include <GuiFactory>
+
 #include includes/GUI/GuiFrame/GuiFrame.ahk
 #include includes/GUI/GuiFrame/TextFrame.ahk
 #include includes/GUI/GuiFrame/MonitorFrame.ahk
@@ -30,9 +31,8 @@ GUI_Init()
     Menu, Tray, Add, Exit, Exit
 
     ; Setup GUI
-    global guiFactory
     global mainGui
-    mainGui := guiFactory.CreateGUI("+Delimiter`n +AlwaysOnTop", "main")
+    mainGui := GuiFactory.CreateGUI("+Delimiter`n +AlwaysOnTop", "main")
 
     ; Create tabs
     tabs := "State`nOptions`n"

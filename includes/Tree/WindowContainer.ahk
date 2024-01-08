@@ -1,4 +1,6 @@
-﻿; WindowContainer node - Contains a window
+﻿#include <WindowGaps>
+
+; WindowContainer node - Contains a window
 class WindowContainer extends Container
 {
     hwnd := ""
@@ -410,7 +412,7 @@ class WindowContainer extends Container
 
     GetWindowArea()
     {
-        offset := GetWindowGapOffset(this.hwnd)
+        offset := WindowGaps.GetWindowGapOffset(this.hwnd)
 
         workArea := this.GetWorkArea()
         workAreaWidth := workArea.right - workArea.left

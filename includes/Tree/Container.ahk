@@ -1,4 +1,6 @@
-﻿; Base Container class
+﻿#include <WindowGaps>
+
+; Base Container class
 class Container
 {
     parent := ""
@@ -403,7 +405,7 @@ class Container
         else
         {
             winPos := GetWindowPosition(hwnd)
-            offset := GetWindowGapOffset(hwnd)
+            offset := WindowGaps.GetWindowGapOffset(hwnd)
             winPos.x += offset.left
             winPos.y += offset.right
         }
@@ -421,7 +423,7 @@ class Container
         else
         {
             winPos := GetWindowPosition(hwnd)
-            offset := GetWindowGapOffset(hwnd)
+            offset := WindowGaps.GetWindowGapOffset(hwnd)
             winPos.x += offset.left
             winPos.y += offset.right
         }

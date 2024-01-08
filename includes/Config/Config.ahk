@@ -1,3 +1,9 @@
+#include <JSON>
+
+#include includes/Config/OptionsConfig.ahk
+#include includes/Config/WindowConfig.ahk
+#include includes/Config/HotkeyConfig.ahk
+
 LoadConfig(ByRef outputVar, filename, debugMessage = false)
 {
     FileRead, fileString, % filename
@@ -24,6 +30,3 @@ SaveConfig(config, filename)
     FileAppend, % JSON.Dump(config,, "`t"), % filename
 }
 
-#include includes/Config/OptionsConfig.ahk
-#include includes/Config/WindowConfig.ahk
-#include includes/Config/HotkeyConfig.ahk
